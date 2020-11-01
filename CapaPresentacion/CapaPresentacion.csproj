@@ -67,12 +67,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\Images\musicBit.png" />
+    <Content Include="App\Scripts\bootstrap.min.js" />
+    <Content Include="App\Scripts\sweetalert.min.js" />
+    <Content Include="App\Styles\bootstrap.min.css" />
+    <Content Include="App\Styles\Main.css" />
+    <Content Include="App\Styles\sweetalert.css" />
+    <Content Include="MusicBit.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Main.Master.cs">
+      <DependentUpon>Main.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Main.Master.designer.cs">
+      <DependentUpon>Main.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MusicBit.aspx.cs">
+      <DependentUpon>MusicBit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MusicBit.aspx.designer.cs">
+      <DependentUpon>MusicBit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Main.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -91,6 +113,7 @@
       <Name>CapaNegocio</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

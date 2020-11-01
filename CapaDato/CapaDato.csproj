@@ -108,6 +108,7 @@
       <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
@@ -134,6 +135,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datos\DatoArtista.cs" />
+    <Compile Include="Datos\DatoCancion.cs" />
+    <Compile Include="Datos\DatoGenero.cs" />
+    <Compile Include="Entidades\EntidadArtista.cs" />
+    <Compile Include="Entidades\EntidadCancion.cs" />
+    <Compile Include="Entidades\EntidadGenero.cs" />
     <Compile Include="Models\Artista.cs" />
     <Compile Include="Models\Cancion.cs" />
     <Compile Include="Models\Genero.cs" />
