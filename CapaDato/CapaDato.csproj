@@ -138,6 +138,7 @@
     <Compile Include="Datos\DatoArtista.cs" />
     <Compile Include="Datos\DatoCancion.cs" />
     <Compile Include="Datos\DatoGenero.cs" />
+    <Compile Include="Entidades\Cancion_Artista_Genero.cs" />
     <Compile Include="Entidades\EntidadArtista.cs" />
     <Compile Include="Entidades\EntidadCancion.cs" />
     <Compile Include="Entidades\EntidadGenero.cs" />

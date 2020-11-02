@@ -1,0 +1,6 @@
+﻿
+.scrolling-table-container {
+    height: 240px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
