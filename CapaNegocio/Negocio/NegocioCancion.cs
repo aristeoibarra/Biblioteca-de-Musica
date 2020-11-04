@@ -2,8 +2,6 @@
 using CapaDato.Entidades;
 using CapaDato.Models;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data;
 
 namespace CapaNegocio.Negocio
 {
@@ -40,14 +38,18 @@ namespace CapaNegocio.Negocio
         {
             Cancion obj = new Cancion
             {
-                CveCancion = dat.CveCancion            
+                CveCancion = dat.CveCancion
             };
             datoCancion.Eliminar(obj);
         }
 
-        public List<Cancion_Artista_Genero> MostrarDatos()
+        public List<Cancion_Artista_Genero> BuscarNombreCancion(EntidadCancion dat)
         {
-            return datoCancion.MostrarDatos();
+            Cancion obj = new Cancion
+            {
+                NombreCancion = dat.NombreCancion
+            };
+            return datoCancion.BuscarNombreCancion(obj);
         }
     }
 }

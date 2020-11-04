@@ -8,6 +8,7 @@ namespace CapaNegocio.Negocio
     public class NegocioGenero
     {
         readonly DatoGenero datoGenero = new DatoGenero();
+
         public bool Guardar(EntidadGenero dat)
         {
             Genero obj = new Genero
@@ -18,9 +19,37 @@ namespace CapaNegocio.Negocio
             return datoGenero.Guardar(obj);
         }
 
+        public void Actualizar(EntidadGenero dat)
+        {
+            Genero obj = new Genero
+            {
+                CveGenero = dat.CveGenero,
+                NombreGenero = dat.NombreGenero
+            };
+            datoGenero.Actualizar(obj);
+        }
+
+        public void Eliminar(EntidadGenero dat)
+        {
+            Genero obj = new Genero
+            {
+                CveGenero = dat.CveGenero,
+            };
+            datoGenero.Eliminar(obj);
+        }
+
         public List<Genero> MostrarDatos()
         {
             return datoGenero.MostrarDatos();
+        }
+
+        public List<Cancion_Artista_Genero> BuscarNombreGenero(EntidadGenero dat)
+        {
+            Genero obj = new Genero
+            {
+                NombreGenero = dat.NombreGenero,
+            };
+            return datoGenero.BuscarNombreGenero(obj);
         }
     }
 }

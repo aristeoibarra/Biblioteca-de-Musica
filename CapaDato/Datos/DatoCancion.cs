@@ -1,11 +1,7 @@
 ﻿using CapaDato.Entidades;
 using CapaDato.Models;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data;
 using System.Linq;
-
 
 namespace CapaDato.Datos
 {
@@ -39,11 +35,12 @@ namespace CapaDato.Datos
             modeldb.SaveChanges();
         }
 
-        public List<Cancion_Artista_Genero> MostrarDatos()
-        {            
-            var query=(from t1 in modeldb.Cancion
+        public List<Cancion_Artista_Genero> BuscarNombreCancion(Cancion obj)
+        {
+            var query = (from t1 in modeldb.Cancion
                          join t2 in modeldb.Artista on t1.CveartistaCancion equals t2.CveArtista
                          join t3 in modeldb.Genero on t1.CvegeneroCancion equals t3.CveGenero
+                         where t1.NombreCancion.Contains(obj.NombreCancion)
                          select new Cancion_Artista_Genero
                          {
                              ClaveCancion = t1.CveCancion,
@@ -54,9 +51,5 @@ namespace CapaDato.Datos
                          }).ToList();
             return query;
         }
-
-
-
-
     }
 }

@@ -7,7 +7,8 @@ namespace CapaNegocio.Negocio
 {
     public class NegocioArtista
     {
-        readonly DatoArtista DatoArtista = new DatoArtista();
+        readonly DatoArtista datoArtista = new DatoArtista();
+
         public bool Guardar(EntidadArtista dat)
         {
             Artista obj = new Artista
@@ -15,12 +16,40 @@ namespace CapaNegocio.Negocio
                 CveArtista = dat.CveArtista,
                 NombreArtista = dat.NombreArtista
             };
-            return DatoArtista.Guardar(obj);
+            return datoArtista.Guardar(obj);
+        }
+
+        public void Actualizar(EntidadArtista dat)
+        {
+            Artista obj = new Artista
+            {
+                CveArtista = dat.CveArtista,
+                NombreArtista = dat.NombreArtista
+            };
+            datoArtista.Actualizar(obj);
+        }
+
+        public void Eliminar(EntidadArtista dat)
+        {
+            Artista obj = new Artista
+            {
+                CveArtista = dat.CveArtista,
+            };
+            datoArtista.Eliminar(obj);
         }
 
         public List<Artista> MostrarDatos()
         {
-            return DatoArtista.MostrarDatos();
+            return datoArtista.MostrarDatos();
+        }
+
+        public List<Cancion_Artista_Genero> BuscarNombreArtista(EntidadArtista dat)
+        {
+            Artista obj = new Artista
+            {
+                NombreArtista = dat.NombreArtista,
+            };
+            return datoArtista.BuscarNombreArtista(obj);
         }
     }
 }
