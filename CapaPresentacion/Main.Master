@@ -32,7 +32,8 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <header style="background-color: #d9d9d9;">
+            <%--style="background-color: #d9d9d9;"--%>
+            <header class="bg-primary" >
                 <div class="container">
                     <div class="form-inline">
                         <img src="App/Images/musicBit.png"" style="width: 45px; height: 45px;" class="d-inline-block align-top" />

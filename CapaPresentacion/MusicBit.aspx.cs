@@ -20,6 +20,8 @@ namespace CapaPresentacion
         readonly EntidadGenero entidadGenero = new EntidadGenero();
 
         static int claveCancion = 0;
+        static int claveArtista = 0;
+        static int claveGenero = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -29,6 +31,62 @@ namespace CapaPresentacion
                 MostrarTodos();
                 LlenarComboArtista();
                 LlenarComboGenero();
+            }
+        }
+
+        private void Message(string mensaje)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                "alert('" + mensaje + "'); window.location ='MusicBit.aspx';", true);
+        }
+
+        protected void gvDatos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mvMenu.ActiveViewIndex == 0)
+            {
+                Limpiar();
+                claveCancion = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
+
+                ddlArtista.SelectedIndex = -1;
+                ddlArtista.Items.FindByText(gvDatos.SelectedRow.Cells[2].Text).Selected = true;
+
+                txtCancion.Text = gvDatos.SelectedRow.Cells[3].Text;
+
+                ddlGenero.SelectedIndex = -1;
+                ddlGenero.Items.FindByText(gvDatos.SelectedRow.Cells[4].Text).Selected = true;
+
+                txtLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
+                TxtMostrarLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
+            }
+            else if (mvMenu.ActiveViewIndex == 1)
+            {
+                LimpiarTabArtista();
+                claveArtista = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
+                txtTabArtista.Text = gvDatos.SelectedRow.Cells[2].Text;
+            }
+            else if (mvMenu.ActiveViewIndex == 2)
+            {
+                LimpiarTabGenero();
+                claveGenero = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
+                txtTabGenero.Text = gvDatos.SelectedRow.Cells[2].Text;
+
+            }
+        }
+
+        protected void gvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (mvMenu.ActiveViewIndex == 0)
+            {
+                if (e.Row.RowType == DataControlRowType.Header)
+                {
+                    e.Row.Cells[1].Visible = false;
+                    e.Row.Cells[5].Visible = false;
+                }
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    e.Row.Cells[1].Visible = false;
+                    e.Row.Cells[5].Visible = false;
+                }
             }
         }
 
@@ -137,23 +195,16 @@ namespace CapaPresentacion
             gvDatos.DataSource = lists;
             gvDatos.DataBind();
         }
-        #endregion
-
-        private void Message(string mensaje)
-        {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                "alert('" + mensaje + "'); window.location ='MusicBit.aspx';", true);
-        }
-
-        #region botones Main
 
         private int ContarCaracteres()
         {
             int contarWhiteSpace = txtLetra.Text.Count(Char.IsWhiteSpace);
-            int contarCaracteres = txtLetra.Text.Length;           
+            int contarCaracteres = txtLetra.Text.Length;
             return contarCaracteres - contarWhiteSpace;
         }
+        #endregion
 
+        #region Botones Main
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
             if (ddlArtista.SelectedIndex == 0 || txtCancion.Text == string.Empty ||
@@ -209,45 +260,211 @@ namespace CapaPresentacion
         {
             BuscarDatos();
         }
-
-        protected void btnTab1Artista_Click(object sender, EventArgs e)
+        protected void btnTabArtista_Click(object sender, EventArgs e)
         {
             mvMenu.ActiveViewIndex = 1;
+            MostrarTodosArtistas();
+            LbBuscar.Text = "Artista :";
+            rdoArtista.Checked = true;
+            listRdos.Visible = false;
+        }
+        protected void btnTabGenero_Click(object sender, EventArgs e)
+        {
+            mvMenu.ActiveViewIndex = 2;
+            MostrarTodosGeneros();
+            LbBuscar.Text = "Genero :";
+            rdoGenero.Checked = true;
+            listRdos.Visible = false;
         }
         #endregion
-     
-        protected void gvDatos_SelectedIndexChanged(object sender, EventArgs e)
+
+        #region Metodos Artista
+        void LimpiarTabArtista()
         {
-            Limpiar();
-
-            claveCancion = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
-
-            ddlArtista.SelectedIndex = -1;
-            ddlArtista.Items.FindByText(gvDatos.SelectedRow.Cells[2].Text).Selected = true;
-
-            txtCancion.Text = gvDatos.SelectedRow.Cells[3].Text;
-
-            ddlGenero.SelectedIndex = -1;
-            ddlGenero.Items.FindByText(gvDatos.SelectedRow.Cells[4].Text).Selected = true;
-
-            txtLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
-            TxtMostrarLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
+            claveArtista = 0;
+            txtTabArtista.Text = "";
         }
 
-        protected void gvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        void MostrarTodosArtistas()
         {
-            if (e.Row.RowType == DataControlRowType.Header)
+            gvDatos.DataSource = negocioArtista.MostrarDatos();
+            gvDatos.DataBind();
+        }
+
+        private void GuardarArtista()
+        {
+            entidadArtista.NombreArtista = txtTabArtista.Text;
+            negocioArtista.Guardar(entidadArtista);
+            MostrarTodosArtistas();
+            LimpiarTabArtista();
+        }
+
+        private void ActualizarArtista()
+        {
+            entidadArtista.CveArtista = claveArtista;
+            entidadArtista.NombreArtista = txtTabArtista.Text;
+            negocioArtista.Actualizar(entidadArtista);
+            MostrarTodosArtistas();
+            LimpiarTabArtista();
+        }
+
+        private void EliminarArtista()
+        {
+            entidadArtista.CveArtista = claveArtista;
+            negocioArtista.Eliminar(entidadArtista);
+            MostrarTodosArtistas();
+            LimpiarTabArtista();
+        }
+        #endregion
+
+        #region Botones TabArtista
+
+        protected void btnInsertarArtista_Click(object sender, EventArgs e)
+        {
+            if (txtTabArtista.Text != string.Empty)
             {
-                e.Row.Cells[1].Visible = false;
-                e.Row.Cells[5].Visible = false;
+                Message("Inserción Exitosa");
+                GuardarArtista();
             }
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            else
             {
-                e.Row.Cells[1].Visible = false;
-                e.Row.Cells[5].Visible = false;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                              "alert('Campos Vacios');", true);
             }
         }
 
-    
+        protected void btnActualizarArtista_Click(object sender, EventArgs e)
+        {
+            if (txtTabArtista.Text != string.Empty)
+            {
+                Message("Actualizacion Exitosa");
+                ActualizarArtista();
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                              "alert('Campos Vacios');", true);
+            }
+        }
+
+        protected void btnEliminarArtista_Click(object sender, EventArgs e)
+        {
+            if (claveArtista != 0)
+            {
+                Message("Se Elimino Con Exito");
+                EliminarArtista();
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                                 "alert('Selecciona un registro'); ", true);
+            }
+        }
+        #endregion
+
+        #region Metodos Genero
+        private void LimpiarTabGenero()
+        {
+            claveGenero = 0;
+            txtTabGenero.Text = "";
+        }
+
+        private void MostrarTodosGeneros()
+        {
+            gvDatos.DataSource = negocioGenero.MostrarDatos();
+            gvDatos.DataBind();
+        }
+
+        private void GuardarGenero()
+        {
+            entidadGenero.NombreGenero = txtTabGenero.Text;
+            negocioGenero.Guardar(entidadGenero);
+            MostrarTodosGeneros();
+            LimpiarTabGenero();
+        }
+
+        private void ActualizarGenero()
+        {
+            entidadGenero.CveGenero = claveGenero;
+            entidadGenero.NombreGenero = txtTabGenero.Text;
+            negocioGenero.Actualizar(entidadGenero);
+            MostrarTodosGeneros();
+            LimpiarTabGenero();
+        }
+
+        private void EliminarGenero()
+        {
+            entidadGenero.CveGenero = claveGenero;
+            negocioGenero.Eliminar(entidadGenero);
+            MostrarTodosGeneros();
+            LimpiarTabGenero();
+        }
+        #endregion
+
+        #region Botones TabGenero
+        protected void btnInsertarGenero_Click(object sender, EventArgs e)
+        {
+            if (txtTabGenero.Text == string.Empty)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+               "alert('Campos Vacios');", true);
+            }
+            else
+            {
+                Message("Inserción Exitosa");
+                GuardarGenero();
+            }
+        }
+
+        protected void btnActualizarGenero_Click(object sender, EventArgs e)
+        {
+            if (txtTabGenero.Text == string.Empty)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                              "alert('Campos Vacios');", true);
+            }
+            else
+            {
+                Message("Actualizacion Exitosa");
+                ActualizarGenero();
+            }
+        }
+
+        protected void btnEliminarGenero_Click(object sender, EventArgs e)
+        {
+            if (claveGenero != 0)
+            {
+                Message("Se Elimino Con Exito");
+                EliminarGenero();
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                 "alert('Selecciona un registro'); ", true);
+            }
+        }
+        #endregion
+
+        protected void lnkbtnTabArtista_Home_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("MusicBit.aspx");
+        }
+
+        protected void lnkbtnTabGenero_Home_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("MusicBit.aspx");
+        }
+
+        protected void lnkbtnTabGenero_Artisa_Click(object sender, EventArgs e)
+        {
+            mvMenu.ActiveViewIndex = 1;
+            MostrarTodosArtistas();
+        }
+
+        protected void lnkbtnTabArtista_Genero_Click(object sender, EventArgs e)
+        {
+            mvMenu.ActiveViewIndex = 2;
+            MostrarTodosGeneros();
+        }
     }
 }

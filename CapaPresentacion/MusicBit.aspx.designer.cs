@@ -42,6 +42,15 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.Panel Panel1;
 
         /// <summary>
+        /// Control listRdos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl listRdos;
+
+        /// <summary>
         /// Control rdoTodo.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace CapaPresentacion
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rdoTodo;
+
+        /// <summary>
+        /// Control Label4.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label4;
 
         /// <summary>
         /// Control rdoArtista.
@@ -60,6 +78,15 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.RadioButton rdoArtista;
 
         /// <summary>
+        /// Control Label5.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label5;
+
+        /// <summary>
         /// Control rdoCancion.
         /// </summary>
         /// <remarks>
@@ -69,6 +96,15 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.RadioButton rdoCancion;
 
         /// <summary>
+        /// Control Label6.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label6;
+
+        /// <summary>
         /// Control rdoGenero.
         /// </summary>
         /// <remarks>
@@ -76,6 +112,15 @@ namespace CapaPresentacion
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rdoGenero;
+
+        /// <summary>
+        /// Control Label7.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label7;
 
         /// <summary>
         /// Control btnBuscar.
@@ -105,13 +150,13 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.MultiView mvMenu;
 
         /// <summary>
-        /// Control Tab1.
+        /// Control tabMain.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View Tab1;
+        protected global::System.Web.UI.WebControls.View tabMain;
 
         /// <summary>
         /// Control Label2.
@@ -132,13 +177,13 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.DropDownList ddlArtista;
 
         /// <summary>
-        /// Control btnTab1Artista.
+        /// Control btnTabArtista.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnTab1Artista;
+        protected global::System.Web.UI.WebControls.Button btnTabArtista;
 
         /// <summary>
         /// Control LbCancion.
@@ -177,13 +222,13 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.DropDownList ddlGenero;
 
         /// <summary>
-        /// Control btnTab1Genero.
+        /// Control btnTabGenero.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnTab1Genero;
+        protected global::System.Web.UI.WebControls.Button btnTabGenero;
 
         /// <summary>
         /// Control LbLetra.
@@ -231,13 +276,13 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.Button btnEliminar;
 
         /// <summary>
-        /// Control Tab2.
+        /// Control tabArtista.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View Tab2;
+        protected global::System.Web.UI.WebControls.View tabArtista;
 
         /// <summary>
         /// Control Label1.
@@ -249,49 +294,148 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// Control txtArtistaTab2.
+        /// Control txtTabArtista.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtArtistaTab2;
+        protected global::System.Web.UI.WebControls.TextBox txtTabArtista;
 
         /// <summary>
-        /// Control Button1.
+        /// Control btnInsertarArtista.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnInsertarArtista;
 
         /// <summary>
-        /// Control Button2.
+        /// Control btnActualizarArtista.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.Button btnActualizarArtista;
 
         /// <summary>
-        /// Control Button3.
+        /// Control btnEliminarArtista.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button3;
+        protected global::System.Web.UI.WebControls.Button btnEliminarArtista;
 
         /// <summary>
-        /// Control Tab3.
+        /// Control lnkbtnTabArtista_Home.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View Tab3;
+        protected global::System.Web.UI.WebControls.LinkButton lnkbtnTabArtista_Home;
+
+        /// <summary>
+        /// Control lnkbtnTabArtista_Artista.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkbtnTabArtista_Artista;
+
+        /// <summary>
+        /// Control lnkbtnTabArtista_Genero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkbtnTabArtista_Genero;
+
+        /// <summary>
+        /// Control tabGenero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View tabGenero;
+
+        /// <summary>
+        /// Control Label3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label3;
+
+        /// <summary>
+        /// Control txtTabGenero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTabGenero;
+
+        /// <summary>
+        /// Control btnInsertarGenero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnInsertarGenero;
+
+        /// <summary>
+        /// Control btnActualizarGenero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActualizarGenero;
+
+        /// <summary>
+        /// Control btnEliminarGenero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEliminarGenero;
+
+        /// <summary>
+        /// Control lnkbtnTabGenero_Home.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkbtnTabGenero_Home;
+
+        /// <summary>
+        /// Control lnkbtnTabGenero_Artisa.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkbtnTabGenero_Artisa;
+
+        /// <summary>
+        /// Control lnkbtnTabGenero_Genero.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkbtnTabGenero_Genero;
 
         /// <summary>
         /// Control TxtMostrarLetra.

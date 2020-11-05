@@ -7,7 +7,7 @@ namespace CapaNegocio.Negocio
 {
     public class NegocioCancion_Artista_Genero
     {
-        DatoCancion_Artista_Genero datoCAG = new DatoCancion_Artista_Genero();
+        readonly DatoCancion_Artista_Genero datoCAG = new DatoCancion_Artista_Genero();
 
         public List<Cancion_Artista_Genero> MostrarDatos()
         {
