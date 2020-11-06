@@ -5,8 +5,9 @@
 <html>
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon" type="image/png" href="App/Images/musicBit.png" />
     <title>Music Bit</title>
-    
+
     <!-- Bootstrap -->
     <link href="App/Styles/bootstrap.min.css" rel="stylesheet" />
     <script src="App/Scripts/bootstrap.min.js"></script>
@@ -33,11 +34,13 @@
     <form id="form1" runat="server">
         <div>
             <%--style="background-color: #d9d9d9;"--%>
-            <header class="bg-primary" >
+            <header  style="background-color:#314E59;">
                 <div class="container">
                     <div class="form-inline">
-                        <img src="App/Images/musicBit.png"" style="width: 45px; height: 45px;" class="d-inline-block align-top" />
-                        <h2 style="padding-left: 15px; font-family: 'Lato', sans-serif; margin-top: 5px;  ">Music Bit</h2>
+                        <a href="MusicBit.aspx">
+                            <img src="App/Images/musicBit.png" style="width: 45px; height: 45px;" class="d-inline-block align-top" />
+                        </a>
+                        <h2 style="padding-left: 15px; font-family: 'Lato', sans-serif; margin-top: 5px; color:white">Music Bit</h2>
                     </div>
                 </div>
             </header>
@@ -45,11 +48,8 @@
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
 
-            <%--<footer style="background-color: #d9d9d9;">
-                <div class="container">
-                    <h1>Soy un footer</h1>
-                </div>
-            </footer>--%>
+            <footer id="footer" style="background-color: #314E59;">
+            </footer>
         </div>
     </form>
 </body>

@@ -42,6 +42,19 @@ namespace CapaNegocio.Negocio
         {
             return datoArtista.MostrarDatos();
         }
+        public int NumeroRegistros()
+        {
+            int numeroRegistros = datoArtista.NumeroRegistros();
+            return numeroRegistros;
+        }
+        public List<Artista> Buscar(EntidadArtista dat)
+        {
+            Artista obj = new Artista
+            {
+                NombreArtista = dat.NombreArtista,
+            };
+            return datoArtista.Buscar(obj);
+        }
 
         public List<Cancion_Artista_Genero> BuscarNombreArtista(EntidadArtista dat)
         {

@@ -40,6 +40,24 @@ namespace CapaDato.Datos
             return query.ToList();
         }
 
+        public int NumeroRegistros()
+        {
+            int numeroRegistro = (from a in modeldb.Artista
+                                  select a).Count();
+            return numeroRegistro;
+        }
+
+        public List<Artista> Buscar(Artista obj)
+        {
+            var query = (from a in modeldb.Artista
+                         where a.NombreArtista.Contains(obj.NombreArtista)
+                         select a);
+
+            return query.ToList();
+        }
+
+
+
         public List<Cancion_Artista_Genero> BuscarNombreArtista(Artista obj)
         {
             var query = (from t1 in modeldb.Cancion

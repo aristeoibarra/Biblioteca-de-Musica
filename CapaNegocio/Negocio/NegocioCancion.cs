@@ -43,6 +43,12 @@ namespace CapaNegocio.Negocio
             datoCancion.Eliminar(obj);
         }
 
+        public int NumeroRegistros()
+        {
+            int numeroRegistros = datoCancion.NumeroRegistros();
+            return numeroRegistros;
+        }
+
         public List<Cancion_Artista_Genero> BuscarNombreCancion(EntidadCancion dat)
         {
             Cancion obj = new Cancion

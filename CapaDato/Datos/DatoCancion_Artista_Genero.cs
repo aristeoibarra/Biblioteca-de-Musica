@@ -25,6 +25,23 @@ namespace CapaDato.Datos
             return query;
         }
 
+
+        public int NumeroRegistros()
+        {
+            int numRegistros = (from t1 in modeldb.Cancion
+                                join t2 in modeldb.Artista on t1.CveartistaCancion equals t2.CveArtista
+                                join t3 in modeldb.Genero on t1.CvegeneroCancion equals t3.CveGenero
+                                select new Cancion_Artista_Genero
+                                {
+                                    ClaveCancion = t1.CveCancion,
+                                    Artista = t2.NombreArtista,
+                                    Cancion = t1.NombreCancion,
+                                    Genero = t3.NombreGenero,
+                                    Letra = t1.LetraCancion
+                                }).Count();
+            return numRegistros;
+        }
+
         public List<Cancion_Artista_Genero> BuscarTodo(Cancion objCancion, Artista objArtista, Genero objGenero)
         {
             var query = (from t1 in modeldb.Cancion

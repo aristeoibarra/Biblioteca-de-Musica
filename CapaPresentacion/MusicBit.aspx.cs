@@ -1,7 +1,9 @@
 ﻿using CapaDato.Entidades;
+using CapaDato.Models;
 using CapaNegocio.Negocio;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -19,20 +21,21 @@ namespace CapaPresentacion
         readonly EntidadArtista entidadArtista = new EntidadArtista();
         readonly EntidadGenero entidadGenero = new EntidadGenero();
 
-        static int claveCancion = 0;
-        static int claveArtista = 0;
-        static int claveGenero = 0;
+        static int claveCancion;
+        static int numRegistrado;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                mvMenu.ActiveViewIndex = 0;
-                Limpiar();
+                claveCancion = 0;
                 MostrarTodos();
                 LlenarComboArtista();
                 LlenarComboGenero();
+                CantidadRegistros();
             }
         }
+
+        #region Web Form
 
         private void Message(string mensaje)
         {
@@ -42,66 +45,47 @@ namespace CapaPresentacion
 
         protected void gvDatos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (mvMenu.ActiveViewIndex == 0)
-            {
-                Limpiar();
-                claveCancion = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
+            claveCancion = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
 
-                ddlArtista.SelectedIndex = -1;
-                ddlArtista.Items.FindByText(gvDatos.SelectedRow.Cells[2].Text).Selected = true;
+            ddlArtista.SelectedIndex = -1;
+            ddlArtista.Items.FindByText(gvDatos.SelectedRow.Cells[2].Text).Selected = true;
 
-                txtCancion.Text = gvDatos.SelectedRow.Cells[3].Text;
+            txtCancion.Text = gvDatos.SelectedRow.Cells[3].Text;
 
-                ddlGenero.SelectedIndex = -1;
-                ddlGenero.Items.FindByText(gvDatos.SelectedRow.Cells[4].Text).Selected = true;
+            ddlGenero.SelectedIndex = -1;
+            ddlGenero.Items.FindByText(gvDatos.SelectedRow.Cells[4].Text).Selected = true;
 
-                txtLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
-                TxtMostrarLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
-            }
-            else if (mvMenu.ActiveViewIndex == 1)
-            {
-                LimpiarTabArtista();
-                claveArtista = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
-                txtTabArtista.Text = gvDatos.SelectedRow.Cells[2].Text;
-            }
-            else if (mvMenu.ActiveViewIndex == 2)
-            {
-                LimpiarTabGenero();
-                claveGenero = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
-                txtTabGenero.Text = gvDatos.SelectedRow.Cells[2].Text;
-
-            }
+            txtLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
+            txtMostrarLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
+            MostrarBotonesMain();
         }
 
         protected void gvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (mvMenu.ActiveViewIndex == 0)
+            if (e.Row.RowType == DataControlRowType.Header)
             {
-                if (e.Row.RowType == DataControlRowType.Header)
-                {
-                    e.Row.Cells[1].Visible = false;
-                    e.Row.Cells[5].Visible = false;
-                }
-                if (e.Row.RowType == DataControlRowType.DataRow)
-                {
-                    e.Row.Cells[1].Visible = false;
-                    e.Row.Cells[5].Visible = false;
-                }
+                e.Row.Cells[1].Visible = false;
+                e.Row.Cells[5].Visible = false;
+            }
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Cells[1].Visible = false;
+                e.Row.Cells[5].Visible = false;
             }
         }
 
-        #region Metodos Main
-        private void Limpiar()
+        void LimpiarMainText()
         {
-            claveCancion = 0;
-            txtBuscar.Text = null;
             ddlArtista.SelectedIndex = -1;
             txtCancion.Text = null;
-            txtLetra.Text = null;
-            TxtMostrarLetra.Text = null;
             ddlGenero.SelectedIndex = -1;
+            txtLetra.Text = null;
+            txtMostrarLetra.Text = null;
         }
 
+        #endregion
+
+        #region Metodos Main
         private void MostrarTodos()
         {
             gvDatos.DataSource = negocioCAG.MostrarDatos();
@@ -139,7 +123,6 @@ namespace CapaPresentacion
 
             negocioCancion.Guardar(entidadCancion);
             MostrarTodos();
-            Limpiar();
         }
 
         private void ActualizarCancion()
@@ -152,7 +135,6 @@ namespace CapaPresentacion
 
             negocioCancion.Actualizar(entidadCancion);
             MostrarTodos();
-            Limpiar();
         }
 
         private void EliminarCancion()
@@ -160,7 +142,6 @@ namespace CapaPresentacion
             entidadCancion.CveCancion = claveCancion;
             negocioCancion.Eliminar(entidadCancion);
             MostrarTodos();
-            Limpiar();
         }
 
         private void BuscarDatos()
@@ -187,7 +168,10 @@ namespace CapaPresentacion
                 entidadGenero.NombreGenero = txtBuscar.Text;
                 LlenarGrid(negocioGenero.BuscarNombreGenero(entidadGenero));
             }
+            CantidadRegistros();
         }
+
+
 
         private void LlenarGrid(List<Cancion_Artista_Genero> lists)
         {
@@ -202,13 +186,27 @@ namespace CapaPresentacion
             int contarCaracteres = txtLetra.Text.Length;
             return contarCaracteres - contarWhiteSpace;
         }
+
+        private void CantidadRegistros()
+        {
+            numRegistrado = gvDatos.Rows.Count;
+            lbTotalRegistro.Text = "Total de Registros: " + numRegistrado;
+        }
+
+        private void MostrarBotonesMain()
+        {
+            btnInsertar.Visible = false;
+            btnActualizar.Visible = true;
+            btnEliminar.Visible = true;
+            BtnNuevo.Visible = true;
+        }
         #endregion
 
         #region Botones Main
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
             if (ddlArtista.SelectedIndex == 0 || txtCancion.Text == string.Empty ||
-                txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0)
+                 txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0)
             {
                 Message("Campos Vacios");
             }
@@ -219,15 +217,15 @@ namespace CapaPresentacion
             }
             else
             {
-                Message("Inserción Exitosa");
                 GuardarCancion();
+                Message("Inserción Exitosa");
             }
         }
 
         protected void btnActualizar_Click(object sender, EventArgs e)
         {
             if (ddlArtista.SelectedIndex == 0 || txtCancion.Text == string.Empty ||
-                txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0 || claveCancion == 0)
+            txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0 || claveCancion == 0)
             {
                 Message("Campos Vacios");
             }
@@ -238,233 +236,49 @@ namespace CapaPresentacion
             }
             else
             {
-                Message("Actualizacion Exitosa");
                 ActualizarCancion();
+                Message("Actualizacion Exitosa");
             }
+
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (claveCancion == 0)
+            if (claveCancion != 0)
             {
-                Message("Selecciona un registro");
+                EliminarCancion();
+                Message("Se Elimino Con Exito");
             }
             else
             {
-                Message("Se Elimino Con Exito");
-                EliminarCancion();
+                Message("Selecciona un registro");
             }
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            LimpiarMainText();
             BuscarDatos();
         }
-        protected void btnTabArtista_Click(object sender, EventArgs e)
-        {
-            mvMenu.ActiveViewIndex = 1;
-            MostrarTodosArtistas();
-            LbBuscar.Text = "Artista :";
-            rdoArtista.Checked = true;
-            listRdos.Visible = false;
-        }
-        protected void btnTabGenero_Click(object sender, EventArgs e)
-        {
-            mvMenu.ActiveViewIndex = 2;
-            MostrarTodosGeneros();
-            LbBuscar.Text = "Genero :";
-            rdoGenero.Checked = true;
-            listRdos.Visible = false;
-        }
-        #endregion
 
-        #region Metodos Artista
-        void LimpiarTabArtista()
+        protected void btnModuloArtista_Click(object sender, EventArgs e)
         {
-            claveArtista = 0;
-            txtTabArtista.Text = "";
+            Response.Clear();
+            Response.Redirect("ModuloArtista.aspx");
         }
 
-        void MostrarTodosArtistas()
+        protected void btnModuloGenero_Click(object sender, EventArgs e)
         {
-            gvDatos.DataSource = negocioArtista.MostrarDatos();
-            gvDatos.DataBind();
+            Response.Clear();
+            Response.Redirect("ModuloGenero.aspx");
         }
 
-        private void GuardarArtista()
-        {
-            entidadArtista.NombreArtista = txtTabArtista.Text;
-            negocioArtista.Guardar(entidadArtista);
-            MostrarTodosArtistas();
-            LimpiarTabArtista();
-        }
-
-        private void ActualizarArtista()
-        {
-            entidadArtista.CveArtista = claveArtista;
-            entidadArtista.NombreArtista = txtTabArtista.Text;
-            negocioArtista.Actualizar(entidadArtista);
-            MostrarTodosArtistas();
-            LimpiarTabArtista();
-        }
-
-        private void EliminarArtista()
-        {
-            entidadArtista.CveArtista = claveArtista;
-            negocioArtista.Eliminar(entidadArtista);
-            MostrarTodosArtistas();
-            LimpiarTabArtista();
-        }
-        #endregion
-
-        #region Botones TabArtista
-
-        protected void btnInsertarArtista_Click(object sender, EventArgs e)
-        {
-            if (txtTabArtista.Text != string.Empty)
-            {
-                Message("Inserción Exitosa");
-                GuardarArtista();
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                              "alert('Campos Vacios');", true);
-            }
-        }
-
-        protected void btnActualizarArtista_Click(object sender, EventArgs e)
-        {
-            if (txtTabArtista.Text != string.Empty)
-            {
-                Message("Actualizacion Exitosa");
-                ActualizarArtista();
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                              "alert('Campos Vacios');", true);
-            }
-        }
-
-        protected void btnEliminarArtista_Click(object sender, EventArgs e)
-        {
-            if (claveArtista != 0)
-            {
-                Message("Se Elimino Con Exito");
-                EliminarArtista();
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                                 "alert('Selecciona un registro'); ", true);
-            }
-        }
-        #endregion
-
-        #region Metodos Genero
-        private void LimpiarTabGenero()
-        {
-            claveGenero = 0;
-            txtTabGenero.Text = "";
-        }
-
-        private void MostrarTodosGeneros()
-        {
-            gvDatos.DataSource = negocioGenero.MostrarDatos();
-            gvDatos.DataBind();
-        }
-
-        private void GuardarGenero()
-        {
-            entidadGenero.NombreGenero = txtTabGenero.Text;
-            negocioGenero.Guardar(entidadGenero);
-            MostrarTodosGeneros();
-            LimpiarTabGenero();
-        }
-
-        private void ActualizarGenero()
-        {
-            entidadGenero.CveGenero = claveGenero;
-            entidadGenero.NombreGenero = txtTabGenero.Text;
-            negocioGenero.Actualizar(entidadGenero);
-            MostrarTodosGeneros();
-            LimpiarTabGenero();
-        }
-
-        private void EliminarGenero()
-        {
-            entidadGenero.CveGenero = claveGenero;
-            negocioGenero.Eliminar(entidadGenero);
-            MostrarTodosGeneros();
-            LimpiarTabGenero();
-        }
-        #endregion
-
-        #region Botones TabGenero
-        protected void btnInsertarGenero_Click(object sender, EventArgs e)
-        {
-            if (txtTabGenero.Text == string.Empty)
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-               "alert('Campos Vacios');", true);
-            }
-            else
-            {
-                Message("Inserción Exitosa");
-                GuardarGenero();
-            }
-        }
-
-        protected void btnActualizarGenero_Click(object sender, EventArgs e)
-        {
-            if (txtTabGenero.Text == string.Empty)
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                              "alert('Campos Vacios');", true);
-            }
-            else
-            {
-                Message("Actualizacion Exitosa");
-                ActualizarGenero();
-            }
-        }
-
-        protected void btnEliminarGenero_Click(object sender, EventArgs e)
-        {
-            if (claveGenero != 0)
-            {
-                Message("Se Elimino Con Exito");
-                EliminarGenero();
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                 "alert('Selecciona un registro'); ", true);
-            }
-        }
-        #endregion
-
-        protected void lnkbtnTabArtista_Home_Click(object sender, EventArgs e)
+        protected void BtnNuevo_Click(object sender, EventArgs e)
         {
             Response.Redirect("MusicBit.aspx");
         }
+        #endregion
 
-        protected void lnkbtnTabGenero_Home_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("MusicBit.aspx");
-        }
 
-        protected void lnkbtnTabGenero_Artisa_Click(object sender, EventArgs e)
-        {
-            mvMenu.ActiveViewIndex = 1;
-            MostrarTodosArtistas();
-        }
-
-        protected void lnkbtnTabArtista_Genero_Click(object sender, EventArgs e)
-        {
-            mvMenu.ActiveViewIndex = 2;
-            MostrarTodosGeneros();
-        }
     }
 }

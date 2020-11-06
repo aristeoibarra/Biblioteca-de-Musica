@@ -35,6 +35,13 @@ namespace CapaDato.Datos
             modeldb.SaveChanges();
         }
 
+        public int NumeroRegistros()
+        {
+            int numeroRegistro = (from c in modeldb.Cancion
+                                  select c).Count();
+            return numeroRegistro;
+        }
+
         public List<Cancion_Artista_Genero> BuscarNombreCancion(Cancion obj)
         {
             var query = (from t1 in modeldb.Cancion

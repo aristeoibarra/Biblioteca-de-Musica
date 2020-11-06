@@ -26,5 +26,13 @@ namespace CapaNegocio.Negocio
 
             return datoCAG.BuscarTodo(objCancion, objArtista, objGenero);
         }
+
+        public int NumeroRegistros()
+        {
+            int numeroRegistros = datoCAG.NumeroRegistros();
+            return numeroRegistros;
+        }
+
+
     }
 }

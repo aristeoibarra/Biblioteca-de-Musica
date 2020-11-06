@@ -39,6 +39,21 @@ namespace CapaDato.Datos
             return query.ToList();
         }
 
+        public int NumeroRegistros()
+        {
+            int numeroRegistro = (from g in modeldb.Genero
+                                  select g).Count();
+            return numeroRegistro;
+        }
+        public List<Genero> Buscar(Genero obj)
+        {
+            var query = (from a in modeldb.Genero
+                         where a.NombreGenero.Contains(obj.NombreGenero)
+                         select a);
+
+            return query.ToList();
+        }
+
         public List<Cancion_Artista_Genero> BuscarNombreGenero(Genero obj)
         {
             var query = (from t1 in modeldb.Cancion

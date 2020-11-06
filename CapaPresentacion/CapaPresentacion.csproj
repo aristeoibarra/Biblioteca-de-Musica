@@ -67,12 +67,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\Images\Cassete.png" />
     <Content Include="App\Images\musicBit.png" />
     <Content Include="App\Scripts\bootstrap.min.js" />
     <Content Include="App\Scripts\sweetalert.min.js" />
     <Content Include="App\Styles\bootstrap.min.css" />
     <Content Include="App\Styles\Main.css" />
     <Content Include="App\Styles\sweetalert.css" />
+    <Content Include="ModuloArtista.aspx" />
+    <Content Include="ModuloGenero.aspx" />
     <Content Include="MusicBit.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -83,6 +86,20 @@
     </Compile>
     <Compile Include="Main.Master.designer.cs">
       <DependentUpon>Main.Master</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloArtista.aspx.cs">
+      <DependentUpon>ModuloArtista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModuloArtista.aspx.designer.cs">
+      <DependentUpon>ModuloArtista.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloGenero.aspx.cs">
+      <DependentUpon>ModuloGenero.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModuloGenero.aspx.designer.cs">
+      <DependentUpon>ModuloGenero.aspx</DependentUpon>
     </Compile>
     <Compile Include="MusicBit.aspx.cs">
       <DependentUpon>MusicBit.aspx</DependentUpon>
