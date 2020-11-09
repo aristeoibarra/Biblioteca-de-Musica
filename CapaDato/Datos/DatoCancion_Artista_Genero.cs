@@ -1,7 +1,9 @@
 ﻿using CapaDato.Entidades;
 using CapaDato.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace CapaDato.Datos
 {
@@ -21,10 +23,9 @@ namespace CapaDato.Datos
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,
                              Letra = t1.LetraCancion
-                         }).ToList();
+                         }).OrderBy(x=>x.Artista).ToList();
             return query;
         }
-
 
         public int NumeroRegistros()
         {
@@ -57,9 +58,54 @@ namespace CapaDato.Datos
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,
                              Letra = t1.LetraCancion
-                         }).ToList();
+                         }).OrderBy(x=>x.Artista).ToList();
             return query;
         }
 
+        public static List<string> AutoCompletar_Todo(string nombre)
+        {
+            var query = (from c in AutoCompletar_Cancion(nombre)
+                         .Union(AutoCompletar_Artista(nombre))
+                         .Union(AutoCompletar_Genero(nombre))
+                         select c);
+
+            return query.OrderBy(x => x).ToList();
+        }
+
+        public static List<string> AutoCompletar_Cancion(string nombre)
+        {
+            PostDbContext modeldb = new PostDbContext();
+            var query = (from c in modeldb.Cancion
+                        join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
+                        join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
+                        where c.NombreCancion.Contains(nombre)
+                        select c.NombreCancion).OrderBy(x=>x);
+
+            return query.ToList();
+        }
+
+        public static List<string> AutoCompletar_Artista(string nombre)
+        {
+            PostDbContext modeldb = new PostDbContext();
+            var query = (from c in modeldb.Cancion
+                         join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
+                         join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
+                         where a.NombreArtista.Contains(nombre)
+                         select a.NombreArtista).OrderBy(x=>x);
+
+            return query.ToList();
+        }
+
+        public static List<string> AutoCompletar_Genero(string nombre)
+        {
+            PostDbContext modeldb = new PostDbContext();
+            var query = (from c in modeldb.Cancion
+                        join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
+                        join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
+                        where g.NombreGenero.Contains(nombre)
+                        select g.NombreGenero).OrderBy(x=>x);
+
+            return query.ToList();
+        }
     }
 }

@@ -33,6 +33,24 @@ namespace CapaNegocio.Negocio
             return numeroRegistros;
         }
 
+        public static List<string> AutoCompletar_Todo(string nombre)
+        {
+            return DatoCancion_Artista_Genero.AutoCompletar_Todo(nombre);
+        }
 
+        public static List<string> AutoCompletar_Cancion(string nombre)
+        {
+            return DatoCancion_Artista_Genero.AutoCompletar_Cancion(nombre);
+        }
+
+        public static List<string> AutoCompletar_Artista(string nombre)
+        {
+            return DatoCancion_Artista_Genero.AutoCompletar_Artista(nombre);
+        }
+
+        public static List<string> AutoCompletar_Genero(string nombre)
+        {
+            return DatoCancion_Artista_Genero.AutoCompletar_Genero(nombre);
+        }
     }
 }

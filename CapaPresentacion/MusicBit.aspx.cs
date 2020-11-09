@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -76,6 +77,7 @@ namespace CapaPresentacion
 
         void LimpiarMainText()
         {
+            claveCancion = 0;
             ddlArtista.SelectedIndex = -1;
             txtCancion.Text = null;
             ddlGenero.SelectedIndex = -1;
@@ -255,8 +257,17 @@ namespace CapaPresentacion
             }
         }
 
+        void OcultarBotones()
+        {
+            btnActualizar.Visible = false;
+            btnEliminar.Visible = false;
+            BtnNuevo.Visible = false;
+            btnInsertar.Visible = true;
+        }
+
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            OcultarBotones();
             LimpiarMainText();
             BuscarDatos();
         }
@@ -279,6 +290,28 @@ namespace CapaPresentacion
         }
         #endregion
 
+        [WebMethod]
+        public static List<string> AutoCompletarArtista(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Artista(nombre);
+        }
 
+        [WebMethod]
+        public static List<string> AutoCompletarCancion(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Cancion(nombre);
+        }
+
+        [WebMethod]
+        public static List<string> AutoCompletarGenero(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Genero(nombre);
+        }
+
+        [WebMethod]
+        public static List<string> AutoCompletarTodo(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Todo(nombre);
+        }    
     }
 }

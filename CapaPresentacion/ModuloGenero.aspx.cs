@@ -3,7 +3,9 @@ using CapaDato.Models;
 using CapaNegocio.Negocio;
 using System;
 using System.Collections.Generic;
+using System.Web.Services;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace CapaPresentacion
 {
@@ -19,7 +21,9 @@ namespace CapaPresentacion
         {
             if (!IsPostBack)
             {
-                MostrarTodosGenero();
+                // MostrarTodosGenero();
+                gvDatosGenero.VirtualItemCount = Count();
+                MostrarTodosGenero(1, 6);
                 CantidadRegistros();
                 claveGenero = 0;
             }
@@ -109,11 +113,20 @@ namespace CapaPresentacion
                                  "alert('Selecciona un registro'); ", true);
             }
         }
-
+        void OcultarBotones()
+        {
+            btnActualizarGenero.Visible = false;
+            btnEliminarGenero.Visible = false;
+            BtnNuevoGenero.Visible = false;
+            btnInsertarGenero.Visible = true;
+        }
         protected void btnBusarGenero_Click(object sender, EventArgs e)
         {
             LimpiarText();
-            BuscarNombreGenero();
+            //BuscarNombreGenero();
+            OcultarBotones();
+            gvDatosGenero.VirtualItemCount = Count();
+            MostrarTodosGenero(1, 6);
             CantidadRegistros();
         }
 
@@ -163,5 +176,41 @@ namespace CapaPresentacion
             txtGenero.Text = null;
         }
         #endregion
+
+        [WebMethod]
+        public static List<string> AutoCompletarNombreGenero(string nombreGenero)
+        {
+            return NegocioGenero.AutoCompletarNombreGenero(nombreGenero);
+        }
+
+        private void MostrarTodosGenero(int starIndex, int maxRows)
+        {
+            gvDatosGenero.DataSource = negocioGenero.PaginacionByDescGenero(starIndex, maxRows, txtBuscarGenero.Text);
+            gvDatosGenero.DataBind();
+        }
+
+        private int Count()
+        {
+            var desc = txtBuscarGenero.Text;
+            return negocioGenero.PaginacionCountGenero(desc);
+        }
+
+        protected void gvDatosGenero_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvDatosGenero.PageIndex = e.NewPageIndex;
+            MostrarTodosGenero(e.NewPageIndex + 1, 6);
+        }
+
+        protected void gvDatosGenero_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                e.Row.Cells[1].Visible = false;
+            }
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Cells[1].Visible = false;
+            }
+        }
     }
 }

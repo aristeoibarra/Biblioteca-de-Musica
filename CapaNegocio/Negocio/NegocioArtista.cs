@@ -42,11 +42,13 @@ namespace CapaNegocio.Negocio
         {
             return datoArtista.MostrarDatos();
         }
+
         public int NumeroRegistros()
         {
             int numeroRegistros = datoArtista.NumeroRegistros();
             return numeroRegistros;
         }
+
         public List<Artista> Buscar(EntidadArtista dat)
         {
             Artista obj = new Artista
@@ -63,6 +65,22 @@ namespace CapaNegocio.Negocio
                 NombreArtista = dat.NombreArtista,
             };
             return datoArtista.BuscarNombreArtista(obj);
+        }
+
+        public static List<string> AutoCompletarNombreArtista(string nombreArtista)
+        {
+            return DatoArtista.AutoCompletarNombreArtista(nombreArtista);
+        }
+
+        public List<Artista> PaginacionByDescArtista(int startIndex, int maxRows, string desc)
+        {
+
+            return datoArtista.PaginacionByDescArtista(startIndex, maxRows, desc);
+        }
+
+        public int PaginacionCountArtista(string desc)
+        {
+            return datoArtista.PaginacionCountArtista(desc);
         }
     }
 }

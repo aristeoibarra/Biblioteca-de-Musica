@@ -2,6 +2,31 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="App/Styles/Main.css" rel="stylesheet" />
+
+    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+    <script>    
+        $(function () {
+            $("#<% =txtBuscarGenero.ClientID%>").autocomplete({
+                source: function (request, response) {
+                    var param = { nombreGenero: $("#<% =txtBuscarGenero.ClientID%>").val() };
+                    $.ajax({
+                        url: "ModuloGenero.aspx/AutoCompletarNombreGenero",
+                        data: JSON.stringify(param),
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        datafilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) { return { value: item } }))
+                        },
+                    });
+                },
+                minLength: 1
+            });
+        });
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
@@ -28,20 +53,42 @@
             </div>
 
             <div class="mb-1  rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid White; background-color: #d9d9d9; height: 260px;">
-                <div id="scroll" class="scrolling-table-container mt-2 mt-sm-2 mt-md-2" style="height: 220px;">
-                    <asp:GridView ID="gvDatosGenero" ShowHeader="True" Width="100%" CssClass="table-hover table-striped" runat="server" AutoGenerateSelectButton="True" OnSelectedIndexChanged="gvDatosGenero_SelectedIndexChanged">
+                <div id="" class="mt-2 mt-sm-2 mt-md-2">
+
+                    <asp:GridView ID="gvDatosGenero"
+                        AutoGenerateColumns="False"
+                        PageSize="6"
+                        Width="100%" CssClass="table-hover"
+                        runat="server" AutoGenerateSelectButton="True"
+                        OnSelectedIndexChanged="gvDatosGenero_SelectedIndexChanged"
+                        AllowPaging="True"
+                        AllowCustomPaging="True" OnPageIndexChanging="gvDatosGenero_PageIndexChanging" OnRowDataBound="gvDatosGenero_RowDataBound">
+
                         <FooterStyle BackColor="#CCCCCC" />
                         <HeaderStyle CssClass="text-white bg-dark" HorizontalAlign="Center" BorderStyle="Groove" BorderColor="black" />
                         <RowStyle CssClass="table-light" HorizontalAlign="Center" BorderStyle="Groove" BorderColor="black" />
                         <SelectedRowStyle Font-Bold="True" ForeColor="black" />
+
+                        <Columns>
+                            <asp:BoundField DataField="CveGenero" HeaderText="Cve"></asp:BoundField>
+                            <asp:BoundField DataField="NombreGenero" HeaderText="- Nombre Genero -">
+                                <ItemStyle Width="100%" />
+                            </asp:BoundField>
+                        </Columns>
+                        <PagerSettings Mode="NumericFirstLast"
+                            PageButtonCount="8"
+                            FirstPageText="Primero"
+                            LastPageText="Ultimo" />
+                        <PagerStyle CssClass="pagination-ys" BorderColor="Transparent" Height="30px" HorizontalAlign="Center" />
+
                     </asp:GridView>
                 </div>
                 <div id="lbTotalGenero">
-                    <asp:Label ID="lbTotalRegistro" Text="Total de Registros: " Font-Bold="true" CssClass="mb-1 mt-1 d-flex justify-content-center" runat="server"></asp:Label>
+                    <asp:Label ID="lbTotalRegistro" Visible="false" Text="Total de Registros: " Font-Bold="true" CssClass="mb-1 mt-1 d-flex justify-content-center" runat="server"></asp:Label>
                 </div>
 
                 <div id="padreLogoData" class="container">
-                    <img runat="server" style="margin-top: 27px; width: 330px; height: 200px;"
+                    <img runat="server" style="margin-top: 20px; width: 330px; height: 200px;"
                         src="App/Images/Cassete.png" />
                 </div>
             </div>
@@ -74,6 +121,69 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .pagination-ys {
+            /*display: inline-block;*/
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+            .pagination-ys table > tbody > tr > td {
+                display: inline;
+            }
+
+                .pagination-ys table > tbody > tr > td > a,
+                .pagination-ys table > tbody > tr > td > span {
+                    position: relative;
+                    float: left;
+                    padding: 8px 12px;
+                    line-height: 1.42857143;
+                    text-decoration: none;
+                    color: #1e90ff;
+                    background-color: #ffffff;
+                    border: 1px solid #dddddd;
+                    margin-left: -1px;
+                }
+
+                .pagination-ys table > tbody > tr > td > span {
+                    position: relative;
+                    float: left;
+                    padding: 8px 12px;
+                    line-height: 1.42857143;
+                    text-decoration: none;
+                    margin-left: -1px;
+                    z-index: 2;
+                    color: #1e90ff;
+                    background-color: #f5f5f5;
+                    border-color: #dddddd;
+                    cursor: default;
+                }
+
+                .pagination-ys table > tbody > tr > td:first-child > a,
+                .pagination-ys table > tbody > tr > td:first-child > span {
+                    margin-left: 0;
+                    border-bottom-left-radius: 4px;
+                    border-top-left-radius: 4px;
+                }
+
+                .pagination-ys table > tbody > tr > td:last-child > a,
+                .pagination-ys table > tbody > tr > td:last-child > span {
+                    border-bottom-right-radius: 4px;
+                    border-top-right-radius: 4px;
+                }
+
+                .pagination-ys table > tbody > tr > td > a:hover,
+                .pagination-ys table > tbody > tr > td > span:hover,
+                .pagination-ys table > tbody > tr > td > a:focus,
+                .pagination-ys table > tbody > tr > td > span:focus {
+                    color: #1e90ff;
+                    background-color: #eeeeee;
+                    border-color: #dddddd;
+                }
+    </style>
+
     <div>
         <%
             CapaNegocio.Negocio.NegocioGenero negocioGenero = new CapaNegocio.Negocio.NegocioGenero();

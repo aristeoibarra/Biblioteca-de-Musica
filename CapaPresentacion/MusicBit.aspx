@@ -2,12 +2,15 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="App/Styles/Main.css" rel="stylesheet" />
+
+    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <div id="fila1" class="row mt-2 ">
-            <%--9697a2--%> <%--#3c7a83--%>
             <div class="mb-1 rounded col-12 col-sm-12 col-md-5 col-lg-5" style="background-color: #d9d9d9; height: 260px;">
                 <div class="mt-2 mt-sm-2 mt-md-2">
                     <div class="input-group mb-3">
@@ -23,25 +26,25 @@
                         <asp:Panel ID="Panel1" runat="server">
                             <div id="listRdos" runat="server" class="d-flex justify-content-center ml-md-3">
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoTodo" CssClass="form-check-input" runat="server" GroupName="Busqueda" Checked="True" />
+                                    <asp:RadioButton ID="rdoTodo" CssClass="form-check-input" runat="server" GroupName="Busqueda" Checked="True" AutoPostBack="True" />
                                     <asp:Label ID="Label4" CssClass="form-check-label" runat="server">Todo</asp:Label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoArtista" CssClass="form-check-input" runat="server" GroupName="Busqueda" />
+                                    <asp:RadioButton ID="rdoArtista" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" />
                                     <asp:Label ID="Label5" CssClass="form-check-label" runat="server">Artista</asp:Label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoCancion" CssClass="form-check-input" runat="server" GroupName="Busqueda" />
+                                    <asp:RadioButton ID="rdoCancion" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" />
                                     <asp:Label ID="Label6" CssClass="form-check-label" runat="server">Canción</asp:Label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoGenero" CssClass="form-check-input" runat="server" GroupName="Busqueda" />
+                                    <asp:RadioButton ID="rdoGenero" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" />
                                     <asp:Label ID="Label7" CssClass="form-check-label" runat="server">Genero</asp:Label>
                                 </div>
                             </div>
                         </asp:Panel>
                     </div>
-                    <div id="btnTabBuscar" style="margin-top:120px;" class="d-flex justify-content-end">
+                    <div id="btnTabBuscar" style="margin-top: 120px;" class="d-flex justify-content-end">
                         <asp:Button ID="btnBuscar" CssClass="btn btn-info" Height="36px" Width="114px" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />
                     </div>
                 </div>
@@ -49,15 +52,46 @@
 
             <div class="mb-1  rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid White; background-color: #d9d9d9; height: 260px;">
                 <div id="scroll" class="scrolling-table-container mt-2 mt-sm-2 mt-md-2">
-                    <asp:GridView ID="gvDatos" ShowHeader="True" Width="100%" CssClass="table-hover table-striped" runat="server" OnSelectedIndexChanged="gvDatos_SelectedIndexChanged" OnRowDataBound="gvDatos_RowDataBound" AutoGenerateSelectButton="True">
+                    <asp:GridView ID="gvDatos"
+                        AutoGenerateColumns="False"
+                        Width="100%" CssClass="table-hover"
+                        runat="server"
+                        OnSelectedIndexChanged="gvDatos_SelectedIndexChanged" OnRowDataBound="gvDatos_RowDataBound" AutoGenerateSelectButton="True">
+
+
                         <FooterStyle BackColor="#CCCCCC" />
                         <HeaderStyle CssClass="text-white bg-dark" HorizontalAlign="Center" BorderStyle="Groove" BorderColor="black" />
                         <RowStyle CssClass="table-light" HorizontalAlign="Center" BorderStyle="Groove" BorderColor="black" />
                         <SelectedRowStyle Font-Bold="True" ForeColor="black" />
+
+                        <Columns>
+                            <asp:BoundField DataField="ClaveCancion" HeaderText="Cve"></asp:BoundField>
+
+                            <asp:BoundField DataField="Artista" HeaderText="Artista">
+                                <ItemStyle Width="33%" />
+                            </asp:BoundField>
+
+                            <asp:BoundField DataField="Cancion" HeaderText="Cancion">
+                                <ItemStyle Width="33%" />
+                            </asp:BoundField>
+
+                            <asp:BoundField DataField="Genero" HeaderText="Genero">
+                                <ItemStyle Width="33%" />
+                            </asp:BoundField>
+
+                            <asp:BoundField DataField="Letra" HeaderText="letra"></asp:BoundField>
+
+
+                        </Columns>
+                        <PagerSettings Mode="NumericFirstLast"
+                            PageButtonCount="8"
+                            FirstPageText="Primero"
+                            LastPageText="Ultimo" />
+                        <PagerStyle CssClass="pagination-ys" BorderColor="Transparent" Height="30px" HorizontalAlign="Center" />
                     </asp:GridView>
                 </div>
 
-                 <div id="padreLogoData" class="container">
+                <div id="padreLogoData" class="container">
                     <img runat="server" style="margin-top: 27px; width: 330px; height: 200px;"
                         src="App/Images/Cassete.png" />
                 </div>
@@ -172,7 +206,7 @@
         </style>
         <% } %>
 
-          <%if (gvDatos.Rows.Count <= 0)
+        <%if (gvDatos.Rows.Count <= 0)
             {%>
         <style>
             #scroll {
@@ -194,5 +228,104 @@
             }
         </style>
         <% }%>
+
+
+        <div>
+            <%if (rdoTodo.Checked)
+                {%>
+            <script>    
+                $(function () {
+                    $("#<% =txtBuscar.ClientID%>").autocomplete({
+                        source: function (request, response) {
+                            var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
+                            $.ajax({
+                                url: "MusicBit.aspx/AutoCompletarTodo",
+                                data: JSON.stringify(param),
+                                type: "post",
+                                contentType: "application/json; charset=utf-8",
+                                datafilter: function (data) { return data; },
+                                success: function (data) {
+                                    response($.map(data.d, function (item) { return { value: item } }))
+                                },
+                            });
+                        },
+                        minLength: 1
+                    });
+                });
+            </script>
+            <% } %>
+
+            <%if (rdoArtista.Checked)
+                {%>
+            <script>    
+                $(function () {
+                    $("#<% =txtBuscar.ClientID%>").autocomplete({
+                        source: function (request, response) {
+                            var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
+                            $.ajax({
+                                url: "MusicBit.aspx/AutoCompletarArtista",
+                                data: JSON.stringify(param),
+                                type: "post",
+                                contentType: "application/json; charset=utf-8",
+                                datafilter: function (data) { return data; },
+                                success: function (data) {
+                                    response($.map(data.d, function (item) { return { value: item } }))
+                                },
+                            });
+                        },
+                        minLength: 1
+                    });
+                });
+            </script>
+            <% } %>
+
+            <%if (rdoCancion.Checked)
+                {%>
+            <script>    
+                $(function () {
+                    $("#<% =txtBuscar.ClientID%>").autocomplete({
+                        source: function (request, response) {
+                            var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
+                            $.ajax({
+                                url: "MusicBit.aspx/AutoCompletarCancion",
+                                data: JSON.stringify(param),
+                                type: "post",
+                                contentType: "application/json; charset=utf-8",
+                                datafilter: function (data) { return data; },
+                                success: function (data) {
+                                    response($.map(data.d, function (item) { return { value: item } }))
+                                },
+                            });
+                        },
+                        minLength: 1
+                    });
+                });
+            </script>
+            <% } %>
+
+            <%if (rdoGenero.Checked)
+                {%>
+            <script>    
+                $(function () {
+                    $("#<% =txtBuscar.ClientID%>").autocomplete({
+                        source: function (request, response) {
+                            var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
+                            $.ajax({
+                                url: "MusicBit.aspx/AutoCompletarGenero",
+                                data: JSON.stringify(param),
+                                type: "post",
+                                contentType: "application/json; charset=utf-8",
+                                datafilter: function (data) { return data; },
+                                success: function (data) {
+                                    response($.map(data.d, function (item) { return { value: item } }))
+                                },
+                            });
+                        },
+                        minLength: 1
+                    });
+                });
+            </script>
+            <% } %>
+        </div>
     </div>
 </asp:Content>

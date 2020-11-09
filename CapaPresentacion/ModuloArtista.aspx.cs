@@ -3,7 +3,9 @@ using CapaDato.Models;
 using CapaNegocio.Negocio;
 using System;
 using System.Collections.Generic;
+using System.Web.Services;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace CapaPresentacion
 {
@@ -19,7 +21,9 @@ namespace CapaPresentacion
         {
             if (!IsPostBack)
             {
-                MostrarTodosArtistas();
+                // MostrarTodosArtistas();
+                gvDatosArtista.VirtualItemCount = Count();
+                MostrarTodosArtista(1, 6);
                 CantidadRegistros();
                 claveArtista = 0;
             }
@@ -64,7 +68,7 @@ namespace CapaPresentacion
         private void CantidadRegistros()
         {
             numRegistrado = gvDatosArtista.Rows.Count;
-            lbTotalRegistro.Text = "Total de Registros: "+ numRegistrado;
+            lbTotalRegistro.Text = "Total de Registros: " + numRegistrado;
         }
 
         #endregion
@@ -115,10 +119,21 @@ namespace CapaPresentacion
             Response.Redirect("ModuloArtista.aspx");
         }
 
+        
+        void OcultarBotones()
+        {
+            btnActualizarArtista.Visible = false;
+            btnEliminarArtista.Visible = false;
+            BtnNuevoArtista.Visible = false;
+            btnInsertarArtista.Visible = true;
+        }
         protected void btnBusarArtista_Click(object sender, EventArgs e)
         {
             LimpiarText();
-            BuscarNombreArtista();
+            // BuscarNombreArtista();
+            OcultarBotones();
+            gvDatosArtista.VirtualItemCount = Count();
+            MostrarTodosArtista(1, 6);
             CantidadRegistros();
         }
 
@@ -168,5 +183,41 @@ namespace CapaPresentacion
             txtArtista.Text = null;
         }
         #endregion
+
+        [WebMethod]
+        public static List<string> AutoCompletarNombreArtista(string nombreArtista)
+        {
+            return NegocioArtista.AutoCompletarNombreArtista(nombreArtista);
+        }
+
+        private void MostrarTodosArtista(int starIndex, int maxRows)
+        {
+            gvDatosArtista.DataSource = negocioArtista.PaginacionByDescArtista(starIndex, maxRows, txtBuscarArtista.Text);
+            gvDatosArtista.DataBind();
+        }
+
+        private int Count()
+        {
+            var desc = txtBuscarArtista.Text;
+            return negocioArtista.PaginacionCountArtista(desc);
+        }
+
+        protected void gvDatosArtista_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvDatosArtista.PageIndex = e.NewPageIndex;
+            MostrarTodosArtista(e.NewPageIndex + 1, 6);
+        }
+
+        protected void gvDatosArtista_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                e.Row.Cells[1].Visible = false;
+            }
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Cells[1].Visible = false;
+            }
+        }  
     }
 }

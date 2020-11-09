@@ -58,5 +58,15 @@ namespace CapaDato.Datos
                          }).ToList();
             return query;
         }
+
+        public static List<string> AutoCompletarNombreCancion(string nombreCancion)
+        {
+            PostDbContext modeldb = new PostDbContext();
+            var query = (from c in modeldb.Cancion
+                         where c.NombreCancion.Contains(nombreCancion)
+                         select c.NombreCancion);
+
+            return query.ToList();
+        }
     }
 }

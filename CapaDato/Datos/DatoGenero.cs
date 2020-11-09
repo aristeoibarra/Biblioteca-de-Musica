@@ -71,5 +71,29 @@ namespace CapaDato.Datos
                          .ToList();
             return query;
         }
+
+        public static List<string> AutoCompletarNombreGenero(string nombreGenero)
+        {
+            PostDbContext modeldb = new PostDbContext();
+            var query = (from g in modeldb.Genero
+                     where g.NombreGenero.Contains(nombreGenero)
+                     select g.NombreGenero).OrderBy(x=>x);
+
+            return query.ToList();
+        }
+
+        public List<Genero> PaginacionByDescGenero(int startIndex, int maxRows, string desc)
+        {
+            var resul = (from oc in modeldb.Genero where oc.NombreGenero.Contains(desc) select oc)
+                .OrderBy(p => p.NombreGenero).
+                Skip((startIndex - 1) * maxRows).Take(maxRows);
+
+            return resul.ToList();
+        }
+
+        public int PaginacionCountGenero(string desc)
+        {
+            return modeldb.Genero.Count(p => p.NombreGenero.Contains(desc));
+        }
     }
 }

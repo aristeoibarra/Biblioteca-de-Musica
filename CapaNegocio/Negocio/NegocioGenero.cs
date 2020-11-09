@@ -42,6 +42,7 @@ namespace CapaNegocio.Negocio
         {
             return datoGenero.MostrarDatos();
         }
+
         public List<Genero> Buscar(EntidadGenero dat)
         {
             Genero obj = new Genero
@@ -50,6 +51,7 @@ namespace CapaNegocio.Negocio
             };
             return datoGenero.Buscar(obj);
         }
+
         public int NumeroRegistros()
         {
             int numeroRegistros = datoGenero.NumeroRegistros();
@@ -63,6 +65,21 @@ namespace CapaNegocio.Negocio
                 NombreGenero = dat.NombreGenero,
             };
             return datoGenero.BuscarNombreGenero(obj);
+        }
+
+        public static List<string> AutoCompletarNombreGenero(string nombreGenero)
+        {
+            return DatoGenero.AutoCompletarNombreGenero(nombreGenero);
+        }
+
+        public List<Genero> PaginacionByDescGenero(int startIndex, int maxRows, string desc)
+        {
+            return datoGenero.PaginacionByDescGenero(startIndex, maxRows, desc);
+        }
+
+        public int PaginacionCountGenero(string desc)
+        {
+            return datoGenero.PaginacionCountGenero(desc);
         }
     }
 }

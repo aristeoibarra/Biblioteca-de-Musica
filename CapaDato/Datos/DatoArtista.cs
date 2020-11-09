@@ -56,8 +56,6 @@ namespace CapaDato.Datos
             return query.ToList();
         }
 
-
-
         public List<Cancion_Artista_Genero> BuscarNombreArtista(Artista obj)
         {
             var query = (from t1 in modeldb.Cancion
@@ -73,6 +71,29 @@ namespace CapaDato.Datos
                              Letra = t1.LetraCancion
                          }).ToList();
             return query;
+        }
+
+        public static List<string> AutoCompletarNombreArtista(string nombreArtista)
+        {
+            PostDbContext modeldb = new PostDbContext();
+            var query = (from a in modeldb.Artista
+                     where a.NombreArtista.Contains(nombreArtista)
+                     select a.NombreArtista).OrderBy(x=>x);
+
+            return query.ToList();
+        }
+
+        public List<Artista> PaginacionByDescArtista(int startIndex, int maxRows, string desc)
+        {
+            var resul = (from oc in modeldb.Artista where oc.NombreArtista.Contains(desc) select oc)
+                .OrderBy(p => p.NombreArtista).
+                Skip((startIndex - 1) * maxRows).Take(maxRows);
+            return resul.ToList();
+        }
+
+        public int PaginacionCountArtista(string desc)
+        {
+            return modeldb.Artista.Count(p => p.NombreArtista.Contains(desc));
         }
     }
 }

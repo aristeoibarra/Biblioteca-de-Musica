@@ -57,5 +57,10 @@ namespace CapaNegocio.Negocio
             };
             return datoCancion.BuscarNombreCancion(obj);
         }
+
+        public static List<string> AutoCompletarNombreCancion(string nombreCancion)
+        {
+            return DatoCancion.AutoCompletarNombreCancion(nombreCancion);
+        }
     }
 }
