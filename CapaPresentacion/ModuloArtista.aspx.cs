@@ -3,6 +3,9 @@ using CapaDato.Models;
 using CapaNegocio.Negocio;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -158,7 +161,9 @@ namespace CapaPresentacion
         protected void gvDatosArtista_SelectedIndexChanged(object sender, EventArgs e)
         {
             claveArtista = int.Parse(gvDatosArtista.SelectedRow.Cells[1].Text);
-            txtArtista.Text = gvDatosArtista.SelectedRow.Cells[2].Text;
+
+            txtArtista.Text = HttpUtility.UrlDecode(gvDatosArtista.SelectedRow.Cells[2].Text, Encoding.UTF8);
+            txtArtista.Text = HttpUtility.HtmlDecode(gvDatosArtista.SelectedRow.Cells[2].Text);
             MostrarBotonesArtista();
         }
 

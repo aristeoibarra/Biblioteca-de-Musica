@@ -19,6 +19,8 @@ namespace CapaDato.Datos
                          select new Cancion_Artista_Genero
                          {
                              ClaveCancion = t1.CveCancion,
+                             ClaveArtista = t2.CveArtista,
+                             ClaveGenero = t3.CveGenero,
                              Artista = t2.NombreArtista,
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,
@@ -54,6 +56,8 @@ namespace CapaDato.Datos
                          select new Cancion_Artista_Genero
                          {
                              ClaveCancion = t1.CveCancion,
+                             ClaveArtista = t2.CveArtista,
+                             ClaveGenero = t3.CveGenero,
                              Artista = t2.NombreArtista,
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,

@@ -8,6 +8,9 @@ using System.Linq;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Text;
 
 namespace CapaPresentacion
 {
@@ -24,6 +27,8 @@ namespace CapaPresentacion
 
         static int claveCancion;
         static int numRegistrado;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -35,7 +40,7 @@ namespace CapaPresentacion
                 CantidadRegistros();
             }
         }
-
+        
         #region Web Form
 
         private void Message(string mensaje)
@@ -47,17 +52,16 @@ namespace CapaPresentacion
         protected void gvDatos_SelectedIndexChanged(object sender, EventArgs e)
         {
             claveCancion = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
+            ddlArtista.SelectedValue = gvDatos.SelectedRow.Cells[2].Text;
+            ddlGenero.SelectedValue = gvDatos.SelectedRow.Cells[3].Text;
 
-            ddlArtista.SelectedIndex = -1;
-            ddlArtista.Items.FindByText(gvDatos.SelectedRow.Cells[2].Text).Selected = true;
+            txtCancion.Text = HttpUtility.UrlDecode(gvDatos.SelectedRow.Cells[5].Text, Encoding.UTF8);
+            txtCancion.Text = HttpUtility.HtmlDecode(gvDatos.SelectedRow.Cells[5].Text);
 
-            txtCancion.Text = gvDatos.SelectedRow.Cells[3].Text;
+            txtLetra.Text = HttpUtility.UrlDecode(gvDatos.SelectedRow.Cells[7].Text, Encoding.UTF8);
+            txtLetra.Text = HttpUtility.HtmlDecode(gvDatos.SelectedRow.Cells[7].Text);
 
-            ddlGenero.SelectedIndex = -1;
-            ddlGenero.Items.FindByText(gvDatos.SelectedRow.Cells[4].Text).Selected = true;
-
-            txtLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
-            txtMostrarLetra.Text = gvDatos.SelectedRow.Cells[5].Text;
+            txtMostrarLetra.Text = txtLetra.Text;
             MostrarBotonesMain();
         }
 
@@ -66,12 +70,16 @@ namespace CapaPresentacion
             if (e.Row.RowType == DataControlRowType.Header)
             {
                 e.Row.Cells[1].Visible = false;
-                e.Row.Cells[5].Visible = false;
+                e.Row.Cells[2].Visible = false;
+                e.Row.Cells[3].Visible = false;
+                e.Row.Cells[7].Visible = false;
             }
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 e.Row.Cells[1].Visible = false;
-                e.Row.Cells[5].Visible = false;
+                e.Row.Cells[2].Visible = false;
+                e.Row.Cells[3].Visible = false;
+                e.Row.Cells[7].Visible = false;
             }
         }
 
@@ -119,6 +127,7 @@ namespace CapaPresentacion
         private void GuardarCancion()
         {
             entidadCancion.NombreCancion = txtCancion.Text;
+
             entidadCancion.LetraCancion = txtLetra.Text;
             entidadCancion.CveartistaCancion = int.Parse(ddlArtista.SelectedValue.ToString());
             entidadCancion.CvegeneroCancion = int.Parse(ddlGenero.SelectedValue.ToString());
@@ -210,7 +219,9 @@ namespace CapaPresentacion
             if (ddlArtista.SelectedIndex == 0 || txtCancion.Text == string.Empty ||
                  txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0)
             {
-                Message("Campos Vacios");
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                  "alert('Campos Vacios'); ", true);
             }
             else if (ContarCaracteres() < 10)
             {
@@ -229,7 +240,8 @@ namespace CapaPresentacion
             if (ddlArtista.SelectedIndex == 0 || txtCancion.Text == string.Empty ||
             txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0 || claveCancion == 0)
             {
-                Message("Campos Vacios");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                                 "alert('Campos Vacios'); ", true);
             }
             else if (ContarCaracteres() < 10)
             {

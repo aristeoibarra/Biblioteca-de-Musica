@@ -3,6 +3,8 @@ using CapaDato.Models;
 using CapaNegocio.Negocio;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -166,7 +168,9 @@ namespace CapaPresentacion
         protected void gvDatosGenero_SelectedIndexChanged(object sender, EventArgs e)
         {
             claveGenero = int.Parse(gvDatosGenero.SelectedRow.Cells[1].Text);
-            txtGenero.Text = gvDatosGenero.SelectedRow.Cells[2].Text;
+
+            txtGenero.Text = HttpUtility.UrlDecode(gvDatosGenero.SelectedRow.Cells[2].Text, Encoding.UTF8);
+            txtGenero.Text = HttpUtility.HtmlDecode(gvDatosGenero.SelectedRow.Cells[2].Text);
             MostrarBotonesGenero();
         }
 

@@ -35,7 +35,7 @@ namespace CapaDato.Datos
         public List<Artista> MostrarDatos()
         {
             var query = (from a in modeldb.Artista
-                         select a);
+                         select a).OrderBy(x=>x.NombreArtista);
 
             return query.ToList();
         }

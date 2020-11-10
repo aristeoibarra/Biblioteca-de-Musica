@@ -28,6 +28,8 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+
     <div class="container">
         <div id="fila1" class="row mt-2 ">
             <%--9697a2--%> <%--#3c7a83--%>
@@ -118,6 +120,9 @@
             </div>
         </div>
     </div>
+
+
+
     <div>
 
         <style>

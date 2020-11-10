@@ -3,6 +3,8 @@
     public class Cancion_Artista_Genero
     {
         public int ClaveCancion { get; set; }
+        public int ClaveArtista { get; set; }
+        public int ClaveGenero { get; set; }
         public string Artista { get; set; }
         public string Cancion { get; set; }
         public string Genero { get; set; }

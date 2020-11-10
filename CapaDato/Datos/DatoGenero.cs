@@ -35,7 +35,7 @@ namespace CapaDato.Datos
         public List<Genero> MostrarDatos()
         {
             var query = (from g in modeldb.Genero
-                         select g);
+                         select g).OrderBy(x=>x.NombreGenero);
             return query.ToList();
         }
 

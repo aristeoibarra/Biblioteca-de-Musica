@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="MusicBit.aspx.cs" Inherits="CapaPresentacion.MusicBit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
     <link href="App/Styles/Main.css" rel="stylesheet" />
 
     <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
@@ -9,6 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
     <div class="container">
         <div id="fila1" class="row mt-2 ">
             <div class="mb-1 rounded col-12 col-sm-12 col-md-5 col-lg-5" style="background-color: #d9d9d9; height: 260px;">
@@ -65,7 +67,9 @@
                         <SelectedRowStyle Font-Bold="True" ForeColor="black" />
 
                         <Columns>
-                            <asp:BoundField DataField="ClaveCancion" HeaderText="Cve"></asp:BoundField>
+                            <asp:BoundField DataField="ClaveCancion" ></asp:BoundField>
+                            <asp:BoundField DataField="ClaveArtista" ></asp:BoundField>
+                            <asp:BoundField DataField="ClaveGenero" ></asp:BoundField>
 
                             <asp:BoundField DataField="Artista" HeaderText="Artista">
                                 <ItemStyle Width="33%" />
@@ -103,6 +107,8 @@
             <div id="colum1" class="pl-2 mb-1 rounded col-12 col-sm-12 col-md-5 col-lg-5" style="background-color: #d9d9d9; height: auto;">
                 <div class="mt-3 mt-sm-3 mt-md-3">
                     <%-- txtArtista --%>
+
+
                     <div class="input-group mb-3">
                         <div class="input-group-prepend ">
                             <span class="input-group-text border-info">
@@ -159,7 +165,7 @@
             </div>
 
             <div id="colum2" class="mb-1 rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid white; background-color: #d9d9d9; height: auto;">
-                <asp:TextBox ID="txtMostrarLetra" ReadOnly="true" BackColor="#e8effd" Style="resize: none; margin-top: 15px;" TextMode="multiline" Columns="1000" Rows="11" CssClass="form-control border-info" runat="server"></asp:TextBox>
+                <asp:TextBox ID="txtMostrarLetra" ReadOnly="true" BackColor="#e8effd" Style="resize: none; text-align: center;  margin-top: 15px;" TextMode="multiline" Columns="1000" Rows="11" CssClass="form-control border-info" runat="server"></asp:TextBox>
                 <asp:Label ID="lbTotalRegistro" Text="Total de Registros: " Font-Bold="true" CssClass="mb-1 mt-1 d-flex justify-content-end" runat="server"></asp:Label>
             </div>
 
