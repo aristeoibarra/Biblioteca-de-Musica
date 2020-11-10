@@ -53,12 +53,16 @@
             </div>
 
             <div class="mb-1  rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid White; background-color: #d9d9d9; height: 260px;">
-                <div id="scroll" class="scrolling-table-container mt-2 mt-sm-2 mt-md-2">
+                <div id="scroll" class="mt-2 mt-sm-2 mt-md-2">
                     <asp:GridView ID="gvDatos"
                         AutoGenerateColumns="False"
+                        PageSize="6"
                         Width="100%" CssClass="table-hover"
-                        runat="server"
-                        OnSelectedIndexChanged="gvDatos_SelectedIndexChanged" OnRowDataBound="gvDatos_RowDataBound" AutoGenerateSelectButton="True">
+                        runat="server" AutoGenerateSelectButton="True"
+                        OnSelectedIndexChanged="gvDatos_SelectedIndexChanged"
+                        AllowPaging="true"
+                        OnPageIndexChanging="gvDatos_PageIndexChanging"
+                        OnRowDataBound="gvDatos_RowDataBound">
 
 
                         <FooterStyle BackColor="#CCCCCC" />
@@ -67,9 +71,9 @@
                         <SelectedRowStyle Font-Bold="True" ForeColor="black" />
 
                         <Columns>
-                            <asp:BoundField DataField="ClaveCancion" ></asp:BoundField>
-                            <asp:BoundField DataField="ClaveArtista" ></asp:BoundField>
-                            <asp:BoundField DataField="ClaveGenero" ></asp:BoundField>
+                            <asp:BoundField DataField="ClaveCancion"></asp:BoundField>
+                            <asp:BoundField DataField="ClaveArtista"></asp:BoundField>
+                            <asp:BoundField DataField="ClaveGenero"></asp:BoundField>
 
                             <asp:BoundField DataField="Artista" HeaderText="Artista">
                                 <ItemStyle Width="33%" />
@@ -92,6 +96,10 @@
                             FirstPageText="Primero"
                             LastPageText="Ultimo" />
                         <PagerStyle CssClass="pagination-ys" BorderColor="Transparent" Height="30px" HorizontalAlign="Center" />
+
+
+
+
                     </asp:GridView>
                 </div>
 
@@ -165,7 +173,7 @@
             </div>
 
             <div id="colum2" class="mb-1 rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid white; background-color: #d9d9d9; height: auto;">
-                <asp:TextBox ID="txtMostrarLetra" ReadOnly="true" BackColor="#e8effd" Style="resize: none; text-align: center;  margin-top: 15px;" TextMode="multiline" Columns="1000" Rows="11" CssClass="form-control border-info" runat="server"></asp:TextBox>
+                <asp:TextBox ID="txtMostrarLetra" ReadOnly="true" BackColor="#e8effd" Style="resize: none; text-align: center; margin-top: 15px;" TextMode="multiline" Columns="1000" Rows="11" CssClass="form-control border-info" runat="server"></asp:TextBox>
                 <asp:Label ID="lbTotalRegistro" Text="Total de Registros: " Font-Bold="true" CssClass="mb-1 mt-1 d-flex justify-content-end" runat="server"></asp:Label>
             </div>
 
@@ -173,6 +181,67 @@
         </div>
 
 
+        <style>
+            .pagination-ys {
+                /*display: inline-block;*/
+                padding-left: 0;
+                margin: 20px 0;
+                border-radius: 4px;
+            }
+
+                .pagination-ys table > tbody > tr > td {
+                    display: inline;
+                }
+
+                    .pagination-ys table > tbody > tr > td > a,
+                    .pagination-ys table > tbody > tr > td > span {
+                        position: relative;
+                        float: left;
+                        padding: 8px 12px;
+                        line-height: 1.42857143;
+                        text-decoration: none;
+                        color: #1e90ff;
+                        background-color: #ffffff;
+                        border: 1px solid #dddddd;
+                        margin-left: -1px;
+                    }
+
+                    .pagination-ys table > tbody > tr > td > span {
+                        position: relative;
+                        float: left;
+                        padding: 8px 12px;
+                        line-height: 1.42857143;
+                        text-decoration: none;
+                        margin-left: -1px;
+                        z-index: 2;
+                        color: #1e90ff;
+                        background-color: #f5f5f5;
+                        border-color: #dddddd;
+                        cursor: default;
+                    }
+
+                    .pagination-ys table > tbody > tr > td:first-child > a,
+                    .pagination-ys table > tbody > tr > td:first-child > span {
+                        margin-left: 0;
+                        border-bottom-left-radius: 4px;
+                        border-top-left-radius: 4px;
+                    }
+
+                    .pagination-ys table > tbody > tr > td:last-child > a,
+                    .pagination-ys table > tbody > tr > td:last-child > span {
+                        border-bottom-right-radius: 4px;
+                        border-top-right-radius: 4px;
+                    }
+
+                    .pagination-ys table > tbody > tr > td > a:hover,
+                    .pagination-ys table > tbody > tr > td > span:hover,
+                    .pagination-ys table > tbody > tr > td > a:focus,
+                    .pagination-ys table > tbody > tr > td > span:focus {
+                        color: #1e90ff;
+                        background-color: #eeeeee;
+                        border-color: #dddddd;
+                    }
+        </style>
 
 
         <%
@@ -204,7 +273,8 @@
             }
 
             #footer {
-                position: absolute;
+                position: fixed;
+                left: 0;
                 bottom: 0;
                 width: 100%;
                 height: 70px;

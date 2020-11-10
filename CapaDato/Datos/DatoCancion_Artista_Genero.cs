@@ -34,14 +34,7 @@ namespace CapaDato.Datos
             int numRegistros = (from t1 in modeldb.Cancion
                                 join t2 in modeldb.Artista on t1.CveartistaCancion equals t2.CveArtista
                                 join t3 in modeldb.Genero on t1.CvegeneroCancion equals t3.CveGenero
-                                select new Cancion_Artista_Genero
-                                {
-                                    ClaveCancion = t1.CveCancion,
-                                    Artista = t2.NombreArtista,
-                                    Cancion = t1.NombreCancion,
-                                    Genero = t3.NombreGenero,
-                                    Letra = t1.LetraCancion
-                                }).Count();
+                                select t1.CveCancion).Count();
             return numRegistros;
         }
 
@@ -110,6 +103,6 @@ namespace CapaDato.Datos
                         select g.NombreGenero).OrderBy(x=>x);
 
             return query.ToList();
-        }
+        }    
     }
 }

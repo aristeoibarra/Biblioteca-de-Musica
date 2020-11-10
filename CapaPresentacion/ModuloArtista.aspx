@@ -28,8 +28,6 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-
     <div class="container">
         <div id="fila1" class="row mt-2 ">
             <%--9697a2--%> <%--#3c7a83--%>
@@ -121,72 +119,70 @@
         </div>
     </div>
 
-
-
     <div>
-
-        <style>
-            .pagination-ys {
-                /*display: inline-block;*/
-                padding-left: 0;
-                margin: 20px 0;
-                border-radius: 4px;
-            }
-
-                .pagination-ys table > tbody > tr > td {
-                    display: inline;
+        <div id="paginacion">
+            <style>
+                .pagination-ys {
+                    /*display: inline-block;*/
+                    padding-left: 0;
+                    margin: 20px 0;
+                    border-radius: 4px;
                 }
 
-                    .pagination-ys table > tbody > tr > td > a,
-                    .pagination-ys table > tbody > tr > td > span {
-                        position: relative;
-                        float: left;
-                        padding: 8px 12px;
-                        line-height: 1.42857143;
-                        text-decoration: none;
-                        color: #1e90ff;
-                        background-color: #ffffff;
-                        border: 1px solid #dddddd;
-                        margin-left: -1px;
+                    .pagination-ys table > tbody > tr > td {
+                        display: inline;
                     }
 
-                    .pagination-ys table > tbody > tr > td > span {
-                        position: relative;
-                        float: left;
-                        padding: 8px 12px;
-                        line-height: 1.42857143;
-                        text-decoration: none;
-                        margin-left: -1px;
-                        z-index: 2;
-                        color: #1e90ff;
-                        background-color: #f5f5f5;
-                        border-color: #dddddd;
-                        cursor: default;
-                    }
+                        .pagination-ys table > tbody > tr > td > a,
+                        .pagination-ys table > tbody > tr > td > span {
+                            position: relative;
+                            float: left;
+                            padding: 8px 12px;
+                            line-height: 1.42857143;
+                            text-decoration: none;
+                            color: #1e90ff;
+                            background-color: #ffffff;
+                            border: 1px solid #dddddd;
+                            margin-left: -1px;
+                        }
 
-                    .pagination-ys table > tbody > tr > td:first-child > a,
-                    .pagination-ys table > tbody > tr > td:first-child > span {
-                        margin-left: 0;
-                        border-bottom-left-radius: 4px;
-                        border-top-left-radius: 4px;
-                    }
+                        .pagination-ys table > tbody > tr > td > span {
+                            position: relative;
+                            float: left;
+                            padding: 8px 12px;
+                            line-height: 1.42857143;
+                            text-decoration: none;
+                            margin-left: -1px;
+                            z-index: 2;
+                            color: #1e90ff;
+                            background-color: #f5f5f5;
+                            border-color: #dddddd;
+                            cursor: default;
+                        }
 
-                    .pagination-ys table > tbody > tr > td:last-child > a,
-                    .pagination-ys table > tbody > tr > td:last-child > span {
-                        border-bottom-right-radius: 4px;
-                        border-top-right-radius: 4px;
-                    }
+                        .pagination-ys table > tbody > tr > td:first-child > a,
+                        .pagination-ys table > tbody > tr > td:first-child > span {
+                            margin-left: 0;
+                            border-bottom-left-radius: 4px;
+                            border-top-left-radius: 4px;
+                        }
 
-                    .pagination-ys table > tbody > tr > td > a:hover,
-                    .pagination-ys table > tbody > tr > td > span:hover,
-                    .pagination-ys table > tbody > tr > td > a:focus,
-                    .pagination-ys table > tbody > tr > td > span:focus {
-                        color: #1e90ff;
-                        background-color: #eeeeee;
-                        border-color: #dddddd;
-                    }
-        </style>
+                        .pagination-ys table > tbody > tr > td:last-child > a,
+                        .pagination-ys table > tbody > tr > td:last-child > span {
+                            border-bottom-right-radius: 4px;
+                            border-top-right-radius: 4px;
+                        }
 
+                        .pagination-ys table > tbody > tr > td > a:hover,
+                        .pagination-ys table > tbody > tr > td > span:hover,
+                        .pagination-ys table > tbody > tr > td > a:focus,
+                        .pagination-ys table > tbody > tr > td > span:focus {
+                            color: #1e90ff;
+                            background-color: #eeeeee;
+                            border-color: #dddddd;
+                        }
+            </style>
+        </div>
 
         <%
             CapaNegocio.Negocio.NegocioArtista negocioArtista = new CapaNegocio.Negocio.NegocioArtista();
@@ -217,7 +213,8 @@
             }
 
             #footer {
-                position: absolute;
+                position: fixed;
+                left: 0;
                 bottom: 0;
                 width: 100%;
                 height: 70px;
@@ -243,7 +240,8 @@
             }
 
             #footer {
-                position: absolute;
+                position: fixed;
+                left: 0;
                 bottom: 0;
                 width: 100%;
                 height: 70px;

@@ -28,13 +28,13 @@ namespace CapaPresentacion
         static int claveCancion;
         static int numRegistrado;
 
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 claveCancion = 0;
-                MostrarTodos();
+                //MostrarTodos();
+               BuscarDatos();
                 LlenarComboArtista();
                 LlenarComboGenero();
                 CantidadRegistros();
@@ -157,6 +157,7 @@ namespace CapaPresentacion
 
         private void BuscarDatos()
         {
+           
             if (rdoTodo.Checked)
             {
                 entidadArtista.NombreArtista = txtBuscar.Text;
@@ -200,8 +201,8 @@ namespace CapaPresentacion
 
         private void CantidadRegistros()
         {
-            numRegistrado = gvDatos.Rows.Count;
-            lbTotalRegistro.Text = "Total de Registros: " + numRegistrado;
+            int cantRegistro = negocioCAG.NumeroRegistros();
+            lbTotalRegistro.Text = "Total de Registros: " + cantRegistro;
         }
 
         private void MostrarBotonesMain()
@@ -279,9 +280,12 @@ namespace CapaPresentacion
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            gvDatos.PageIndex = 0;
+
             OcultarBotones();
             LimpiarMainText();
             BuscarDatos();
+
         }
 
         protected void btnModuloArtista_Click(object sender, EventArgs e)
@@ -324,6 +328,12 @@ namespace CapaPresentacion
         public static List<string> AutoCompletarTodo(string nombre)
         {
             return NegocioCancion_Artista_Genero.AutoCompletar_Todo(nombre);
-        }    
+        }
+
+        protected void gvDatos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvDatos.PageIndex = e.NewPageIndex;
+            BuscarDatos();
+        }
     }
 }
