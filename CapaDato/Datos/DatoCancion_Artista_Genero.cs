@@ -1,9 +1,7 @@
 ﻿using CapaDato.Entidades;
 using CapaDato.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace CapaDato.Datos
 {
@@ -25,7 +23,7 @@ namespace CapaDato.Datos
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,
                              Letra = t1.LetraCancion
-                         }).OrderBy(x=>x.Artista).ToList();
+                         }).OrderBy(x => x.Artista).ToList();
             return query;
         }
 
@@ -55,7 +53,7 @@ namespace CapaDato.Datos
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,
                              Letra = t1.LetraCancion
-                         }).OrderBy(x=>x.Artista).ToList();
+                         }).OrderBy(x => x.Artista).ToList();
             return query;
         }
 
@@ -73,10 +71,10 @@ namespace CapaDato.Datos
         {
             PostDbContext modeldb = new PostDbContext();
             var query = (from c in modeldb.Cancion
-                        join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
-                        join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
-                        where c.NombreCancion.Contains(nombre)
-                        select c.NombreCancion).OrderBy(x=>x);
+                         join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
+                         join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
+                         where c.NombreCancion.Contains(nombre)
+                         select c.NombreCancion).OrderBy(x => x);
 
             return query.ToList();
         }
@@ -88,7 +86,7 @@ namespace CapaDato.Datos
                          join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
                          join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
                          where a.NombreArtista.Contains(nombre)
-                         select a.NombreArtista).OrderBy(x=>x);
+                         select a.NombreArtista).OrderBy(x => x);
 
             return query.ToList();
         }
@@ -97,12 +95,12 @@ namespace CapaDato.Datos
         {
             PostDbContext modeldb = new PostDbContext();
             var query = (from c in modeldb.Cancion
-                        join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
-                        join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
-                        where g.NombreGenero.Contains(nombre)
-                        select g.NombreGenero).OrderBy(x=>x);
+                         join a in modeldb.Artista on c.CveartistaCancion equals a.CveArtista
+                         join g in modeldb.Genero on c.CvegeneroCancion equals g.CveGenero
+                         where g.NombreGenero.Contains(nombre)
+                         select g.NombreGenero).OrderBy(x => x);
 
             return query.ToList();
-        }    
+        }
     }
 }

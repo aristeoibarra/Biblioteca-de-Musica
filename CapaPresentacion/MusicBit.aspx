@@ -21,26 +21,26 @@
                                 <asp:Label ID="LbBuscar" Style="font-weight: bold;" runat="server" Text="Buscar :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtBuscar" CssClass="form-control border border-info" runat="server" />
+                        <asp:TextBox ID="txtBuscar"  AutoComplete="off"  CssClass="form-control border border-info" runat="server" />
                     </div>
 
                     <div id="rdoBotones">
                         <asp:Panel ID="Panel1" runat="server">
                             <div id="listRdos" runat="server" class="d-flex justify-content-center ml-md-3">
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoTodo" CssClass="form-check-input" runat="server" GroupName="Busqueda" Checked="True" AutoPostBack="True" />
+                                    <asp:RadioButton ID="rdoTodo" CssClass="form-check-input" Checked="true" runat="server" GroupName="Busqueda" AutoPostBack="True" OnCheckedChanged="rdoTodo_CheckedChanged" />
                                     <asp:Label ID="Label4" CssClass="form-check-label" runat="server">Todo</asp:Label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoArtista" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" />
+                                    <asp:RadioButton ID="rdoArtista" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" OnCheckedChanged="rdoArtista_CheckedChanged" />
                                     <asp:Label ID="Label5" CssClass="form-check-label" runat="server">Artista</asp:Label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoCancion" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" />
+                                    <asp:RadioButton ID="rdoCancion" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" OnCheckedChanged="rdoCancion_CheckedChanged" />
                                     <asp:Label ID="Label6" CssClass="form-check-label" runat="server">Canción</asp:Label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <asp:RadioButton ID="rdoGenero" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" />
+                                    <asp:RadioButton ID="rdoGenero" CssClass="form-check-input" runat="server" GroupName="Busqueda" AutoPostBack="True" OnCheckedChanged="rdoGenero_CheckedChanged" />
                                     <asp:Label ID="Label7" CssClass="form-check-label" runat="server">Genero</asp:Label>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
                                 <asp:Label ID="LbCancion" placeholder="Ingresa nombre de la canción" Style="font-weight: bold;" runat="server" Text="Canción :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtCancion" placeholder="INGRESA NOMBRE DE LA CANCION" CssClass="form-control  border-info" runat="server" />
+                        <asp:TextBox ID="txtCancion" AutoComplete="off" placeholder="INGRESA NOMBRE DE LA CANCION" CssClass="form-control  border-info" runat="server" />
                     </div>
 
                     <%-- txtGenero --%>
@@ -160,7 +160,7 @@
                                 <asp:Label ID="LbLetra" Style="font-weight: bold;" runat="server" Text="Letra : " Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtLetra" placeholder="LETRA CANCION" Style="resize: none;" TextMode="multiline" Columns="100" Rows="3" CssClass="form-control  border-info" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtLetra" AutoComplete="off" placeholder="LETRA CANCION" Style="resize: none;" TextMode="multiline" Columns="100" Rows="3" CssClass="form-control  border-info" runat="server"></asp:TextBox>
                     </div>
                 </div>
 
@@ -173,7 +173,7 @@
             </div>
 
             <div id="colum2" class="mb-1 rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid white; background-color: #d9d9d9; height: auto;">
-                <asp:TextBox ID="txtMostrarLetra" ReadOnly="true" BackColor="#e8effd" Style="resize: none; text-align: center; margin-top: 15px;" TextMode="multiline" Columns="1000" Rows="11" CssClass="form-control border-info" runat="server"></asp:TextBox>
+                <asp:TextBox ID="txtMostrarLetra" AutoComplete="off" ReadOnly="true" BackColor="#e8effd" Style="resize: none; text-align: center; margin-top: 15px;" TextMode="multiline" Columns="1000" Rows="11" CssClass="form-control border-info" runat="server"></asp:TextBox>
                 <asp:Label ID="lbTotalRegistro" Text="Total de Registros: " Font-Bold="true" CssClass="mb-1 mt-1 d-flex justify-content-end" runat="server"></asp:Label>
             </div>
 
@@ -308,14 +308,14 @@
 
         <div>
             <%if (rdoTodo.Checked)
-                {%>
+                { %>
             <script>    
                 $(function () {
                     $("#<% =txtBuscar.ClientID%>").autocomplete({
                         source: function (request, response) {
                             var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
                             $.ajax({
-                                url: "MusicBit.aspx/AutoCompletarTodo",
+                                url: "MusicBit.aspx/AutoCompletar_Todo",
                                 data: JSON.stringify(param),
                                 type: "post",
                                 contentType: "application/json; charset=utf-8",
@@ -339,7 +339,7 @@
                         source: function (request, response) {
                             var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
                             $.ajax({
-                                url: "MusicBit.aspx/AutoCompletarArtista",
+                                url: "MusicBit.aspx/AutoCompletar_Artista",
                                 data: JSON.stringify(param),
                                 type: "post",
                                 contentType: "application/json; charset=utf-8",
@@ -363,7 +363,7 @@
                         source: function (request, response) {
                             var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
                             $.ajax({
-                                url: "MusicBit.aspx/AutoCompletarCancion",
+                                url: "MusicBit.aspx/AutoCompletar_Cancion",
                                 data: JSON.stringify(param),
                                 type: "post",
                                 contentType: "application/json; charset=utf-8",
@@ -387,7 +387,7 @@
                         source: function (request, response) {
                             var param = { nombre: $("#<% =txtBuscar.ClientID%>").val() };
                             $.ajax({
-                                url: "MusicBit.aspx/AutoCompletarGenero",
+                                url: "MusicBit.aspx/AutoCompletar_Genero",
                                 data: JSON.stringify(param),
                                 type: "post",
                                 contentType: "application/json; charset=utf-8",

@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="ModuloArtista.aspx.cs" Inherits="CapaPresentacion.ModuloArtista" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="App/Styles/Main.css" rel="stylesheet" />
-
     <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
@@ -12,7 +10,7 @@
                 source: function (request, response) {
                     var param = { nombreArtista: $("#<% =txtBuscarArtista.ClientID%>").val() };
                     $.ajax({
-                        url: "ModuloArtista.aspx/AutoCompletarNombreArtista",
+                        url: "ModuloArtista.aspx/AutoCompletarNombre_Artista",
                         data: JSON.stringify(param),
                         type: "post",
                         contentType: "application/json; charset=utf-8",
@@ -30,7 +28,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <div id="fila1" class="row mt-2 ">
-            <%--9697a2--%> <%--#3c7a83--%>
             <div class="mb-1 rounded col-12 col-sm-12 col-md-5 col-lg-5" style="background-color: #d9d9d9; height: 260px;">
                 <div class="mt-2 mt-sm-2 mt-md-2">
                     <div class="input-group mb-3">
@@ -39,7 +36,7 @@
                                 <asp:Label ID="LbBuscar" Style="font-weight: bold;" runat="server" Text="Buscar :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtBuscarArtista" CssClass="form-control border border-info" runat="server" />
+                        <asp:TextBox ID="txtBuscarArtista" AutoComplete="off"  CssClass="form-control border border-info" runat="server" />
                     </div>
 
 
@@ -100,7 +97,7 @@
                                 <asp:Label ID="Label1" runat="server" Style="font-weight: bold;" Text="Artista :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtArtista" placeholder="INGRESA NOMBRE DEL ARTISTA" CssClass="form-control border-info" runat="server" />
+                        <asp:TextBox ID="txtArtista" AutoComplete="off" placeholder="INGRESA NOMBRE DEL ARTISTA" CssClass="form-control border-info" runat="server" />
                     </div>
                     <div style="margin-top: 10px; margin-bottom: 10px;" class="d-flex justify-content-center">
                         <asp:Button ID="btnInsertarArtista" CssClass="btn btn-success" runat="server" Text="Insertar" Height="36px" Width="114px" OnClick="btnInsertarArtista_Click" />
@@ -118,7 +115,6 @@
             </div>
         </div>
     </div>
-
     <div>
         <div id="paginacion">
             <style>
@@ -184,92 +180,94 @@
             </style>
         </div>
 
-        <%
-            CapaNegocio.Negocio.NegocioArtista negocioArtista = new CapaNegocio.Negocio.NegocioArtista();
-            double numRegistro = negocioArtista.NumeroRegistros();
-            if (numRegistro == 0)
-            {
-        %>
-        <style>
-            #colum1 {
-                height: 200px;
-                width: 100%;
-                padding-right: 15px;
-                padding-left: 15px;
-                margin-top: 20px;
-                margin-right: auto;
-                margin-left: auto;
-            }
+        <div id="mainPresentacion">
+            <%
+                CapaNegocio.Negocio.NegocioArtista negocioArtista = new CapaNegocio.Negocio.NegocioArtista();
+                double numRegistro = negocioArtista.NumeroRegistros_Artista();
+                if (numRegistro == 0)
+                {
+            %>
+            <style>
+                #colum1 {
+                    height: 200px;
+                    width: 100%;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    margin-top: 20px;
+                    margin-right: auto;
+                    margin-left: auto;
+                }
 
-            #row {
-                background-color: #d9d9d9;
-                margin-top: 50px;
-                margin-bottom: 100px;
-                height: 380px;
-            }
+                #row {
+                    background-color: #d9d9d9;
+                    margin-top: 50px;
+                    margin-bottom: 100px;
+                    height: 380px;
+                }
 
-            #colum2, #fila1 {
-                display: none;
-            }
+                #colum2, #fila1 {
+                    display: none;
+                }
 
-            #footer {
-                position: fixed;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                height: 70px;
-            }
-        </style>
-        <% }
-            else
-            {%>
-        <style>
-            #row {
-                height: 230px;
-                background-color: #d9d9d9;
-            }
+                #footer {
+                    position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 70px;
+                }
+            </style>
+            <% }
+                else
+                {%>
+            <style>
+                #row {
+                    height: 230px;
+                    background-color: #d9d9d9;
+                }
 
-            #colum1 {
-                height: 200px;
-                width: 100%;
-                padding-right: 15px;
-                padding-left: 15px;
-                margin-top: 30px;
-                margin-right: auto;
-                margin-left: auto;
-            }
+                #colum1 {
+                    height: 200px;
+                    width: 100%;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    margin-top: 30px;
+                    margin-right: auto;
+                    margin-left: auto;
+                }
 
-            #footer {
-                position: fixed;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                height: 70px;
-            }
-        </style>
-        <% }%>
+                #footer {
+                    position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 70px;
+                }
+            </style>
+            <% }%>
 
-        <%if (gvDatosArtista.Rows.Count <= 0)
-            {%>
-        <style>
-            #scroll, #lbTotalGenero {
-                display: none;
-            }
+            <%if (gvDatosArtista.Rows.Count <= 0)
+                {%>
+            <style>
+                #scroll, #lbTotalGenero {
+                    display: none;
+                }
 
-            #padreLogoData {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        </style>
-        <% }
-            else
-            {%>
-        <style>
-            #padreLogoData {
-                display: none;
-            }
-        </style>
-        <% }%>
+                #padreLogoData {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            </style>
+            <% }
+                else
+                {%>
+            <style>
+                #padreLogoData {
+                    display: none;
+                }
+            </style>
+            <% }%>
+        </div>
     </div>
 </asp:Content>

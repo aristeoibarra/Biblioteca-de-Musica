@@ -9,14 +9,14 @@ namespace CapaDato.Datos
     {
         readonly PostDbContext modeldb = new PostDbContext();
 
-        public bool Guardar(Cancion obj)
+        public bool Guardar_Cancion(Cancion obj)
         {
             modeldb.Cancion.Add(obj);
             modeldb.SaveChanges();
             return true;
         }
 
-        public void Actualizar(Cancion obj)
+        public void Actualizar_Cancion(Cancion obj)
         {
             var cancion = new Cancion { CveCancion = obj.CveCancion };
             modeldb.Cancion.Attach(cancion);
@@ -27,7 +27,7 @@ namespace CapaDato.Datos
             modeldb.SaveChanges();
         }
 
-        public void Eliminar(Cancion obj)
+        public void Eliminar_Cancion(Cancion obj)
         {
             var cancion = new Cancion { CveCancion = obj.CveCancion };
             modeldb.Cancion.Attach(cancion);
@@ -35,14 +35,14 @@ namespace CapaDato.Datos
             modeldb.SaveChanges();
         }
 
-        public int NumeroRegistros()
+        public int NumeroRegistros_Cancion()
         {
             int numeroRegistro = (from c in modeldb.Cancion
                                   select c).Count();
             return numeroRegistro;
         }
 
-        public List<Cancion_Artista_Genero> BuscarNombreCancion(Cancion obj)
+        public List<Cancion_Artista_Genero> BuscarNombre_Cancion(Cancion obj)
         {
             var query = (from t1 in modeldb.Cancion
                          join t2 in modeldb.Artista on t1.CveartistaCancion equals t2.CveArtista
@@ -57,12 +57,12 @@ namespace CapaDato.Datos
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,
                              Letra = t1.LetraCancion
-                         }).OrderBy(x=>x.Cancion)
+                         }).OrderBy(x => x.Cancion)
                          .ToList();
             return query;
         }
 
-        public static List<string> AutoCompletarNombreCancion(string nombreCancion)
+        public static List<string> AutoCompletarNombre_Cancion(string nombreCancion)
         {
             PostDbContext modeldb = new PostDbContext();
             var query = (from c in modeldb.Cancion

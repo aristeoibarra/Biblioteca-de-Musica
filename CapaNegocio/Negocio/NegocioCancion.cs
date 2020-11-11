@@ -9,7 +9,7 @@ namespace CapaNegocio.Negocio
     {
         readonly DatoCancion datoCancion = new DatoCancion();
 
-        public bool Guardar(EntidadCancion dat)
+        public bool Guardar_Cancion(EntidadCancion dat)
         {
             Cancion obj = new Cancion
             {
@@ -18,10 +18,10 @@ namespace CapaNegocio.Negocio
                 CveartistaCancion = dat.CveartistaCancion,
                 CvegeneroCancion = dat.CvegeneroCancion
             };
-            return datoCancion.Guardar(obj);
+            return datoCancion.Guardar_Cancion(obj);
         }
 
-        public void Actualizar(EntidadCancion dat)
+        public void Actualizar_Cancion(EntidadCancion dat)
         {
             Cancion obj = new Cancion
             {
@@ -31,36 +31,36 @@ namespace CapaNegocio.Negocio
                 CveartistaCancion = dat.CveartistaCancion,
                 CvegeneroCancion = dat.CvegeneroCancion
             };
-            datoCancion.Actualizar(obj);
+            datoCancion.Actualizar_Cancion(obj);
         }
 
-        public void Eliminar(EntidadCancion dat)
+        public void Eliminar_Cancion(EntidadCancion dat)
         {
             Cancion obj = new Cancion
             {
                 CveCancion = dat.CveCancion
             };
-            datoCancion.Eliminar(obj);
+            datoCancion.Eliminar_Cancion(obj);
         }
 
-        public int NumeroRegistros()
+        public int NumeroRegistros_Cancion()
         {
-            int numeroRegistros = datoCancion.NumeroRegistros();
+            int numeroRegistros = datoCancion.NumeroRegistros_Cancion();
             return numeroRegistros;
         }
 
-        public List<Cancion_Artista_Genero> BuscarNombreCancion(EntidadCancion dat)
+        public List<Cancion_Artista_Genero> BuscarNombre_Cancion (EntidadCancion dat)
         {
             Cancion obj = new Cancion
             {
                 NombreCancion = dat.NombreCancion
             };
-            return datoCancion.BuscarNombreCancion(obj);
+            return datoCancion.BuscarNombre_Cancion(obj);
         }
 
-        public static List<string> AutoCompletarNombreCancion(string nombreCancion)
+        public static List<string> AutoCompletarNombre_Cancion(string nombreCancion)
         {
-            return DatoCancion.AutoCompletarNombreCancion(nombreCancion);
+            return DatoCancion.AutoCompletarNombre_Cancion(nombreCancion);
         }
     }
 }

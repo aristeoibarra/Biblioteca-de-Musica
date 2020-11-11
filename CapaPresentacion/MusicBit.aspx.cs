@@ -1,16 +1,13 @@
 ﻿using CapaDato.Entidades;
-using CapaDato.Models;
 using CapaNegocio.Negocio;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Text;
+using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Text;
 
 namespace CapaPresentacion
 {
@@ -25,75 +22,20 @@ namespace CapaPresentacion
         readonly EntidadArtista entidadArtista = new EntidadArtista();
         readonly EntidadGenero entidadGenero = new EntidadGenero();
 
+        public object __o;
         static int claveCancion;
-        static int numRegistrado;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 claveCancion = 0;
-                //MostrarTodos();
-               BuscarDatos();
-                LlenarComboArtista();
-                LlenarComboGenero();
+                BuscarDatos();
+                LlenarCombo_Artista();
+                LlenarCombo_Genero();
                 CantidadRegistros();
             }
         }
-        
-        #region Web Form
-
-        private void Message(string mensaje)
-        {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                "alert('" + mensaje + "'); window.location ='MusicBit.aspx';", true);
-        }
-
-        protected void gvDatos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            claveCancion = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
-            ddlArtista.SelectedValue = gvDatos.SelectedRow.Cells[2].Text;
-            ddlGenero.SelectedValue = gvDatos.SelectedRow.Cells[3].Text;
-
-            txtCancion.Text = HttpUtility.UrlDecode(gvDatos.SelectedRow.Cells[5].Text, Encoding.UTF8);
-            txtCancion.Text = HttpUtility.HtmlDecode(gvDatos.SelectedRow.Cells[5].Text);
-
-            txtLetra.Text = HttpUtility.UrlDecode(gvDatos.SelectedRow.Cells[7].Text, Encoding.UTF8);
-            txtLetra.Text = HttpUtility.HtmlDecode(gvDatos.SelectedRow.Cells[7].Text);
-
-            txtMostrarLetra.Text = txtLetra.Text;
-            MostrarBotonesMain();
-        }
-
-        protected void gvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.Header)
-            {
-                e.Row.Cells[1].Visible = false;
-                e.Row.Cells[2].Visible = false;
-                e.Row.Cells[3].Visible = false;
-                e.Row.Cells[7].Visible = false;
-            }
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                e.Row.Cells[1].Visible = false;
-                e.Row.Cells[2].Visible = false;
-                e.Row.Cells[3].Visible = false;
-                e.Row.Cells[7].Visible = false;
-            }
-        }
-
-        void LimpiarMainText()
-        {
-            claveCancion = 0;
-            ddlArtista.SelectedIndex = -1;
-            txtCancion.Text = null;
-            ddlGenero.SelectedIndex = -1;
-            txtLetra.Text = null;
-            txtMostrarLetra.Text = null;
-        }
-
-        #endregion
 
         #region Metodos Main
         private void MostrarTodos()
@@ -102,9 +44,9 @@ namespace CapaPresentacion
             gvDatos.DataBind();
         }
 
-        private void LlenarComboArtista()
+        private void LlenarCombo_Artista()
         {
-            var datos = negocioArtista.MostrarDatos();
+            var datos = negocioArtista.MostrarDatos_Artista();
 
             ddlArtista.DataSource = datos;
             ddlArtista.DataTextField = "nombreartista";
@@ -113,9 +55,9 @@ namespace CapaPresentacion
             ddlArtista.Items.Insert(0, new ListItem("SELECCIONAR", "0"));
         }
 
-        private void LlenarComboGenero()
+        private void LlenarCombo_Genero()
         {
-            var datos = negocioGenero.MostrarDatos();
+            var datos = negocioGenero.MostrarDatos_Genero();
 
             ddlGenero.DataSource = datos;
             ddlGenero.DataTextField = "nombregenero";
@@ -127,16 +69,15 @@ namespace CapaPresentacion
         private void GuardarCancion()
         {
             entidadCancion.NombreCancion = txtCancion.Text;
-
             entidadCancion.LetraCancion = txtLetra.Text;
             entidadCancion.CveartistaCancion = int.Parse(ddlArtista.SelectedValue.ToString());
             entidadCancion.CvegeneroCancion = int.Parse(ddlGenero.SelectedValue.ToString());
 
-            negocioCancion.Guardar(entidadCancion);
+            negocioCancion.Guardar_Cancion(entidadCancion);
             MostrarTodos();
         }
 
-        private void ActualizarCancion()
+        private void Actualizar_Cancion()
         {
             entidadCancion.CveCancion = claveCancion;
             entidadCancion.NombreCancion = txtCancion.Text;
@@ -144,14 +85,14 @@ namespace CapaPresentacion
             entidadCancion.CveartistaCancion = int.Parse(ddlArtista.SelectedValue.ToString());
             entidadCancion.CvegeneroCancion = int.Parse(ddlGenero.SelectedValue.ToString());
 
-            negocioCancion.Actualizar(entidadCancion);
+            negocioCancion.Actualizar_Cancion(entidadCancion);
             MostrarTodos();
         }
 
-        private void EliminarCancion()
+        private void Eliminar_Cancion()
         {
             entidadCancion.CveCancion = claveCancion;
-            negocioCancion.Eliminar(entidadCancion);
+            negocioCancion.Eliminar_Cancion(entidadCancion);
             MostrarTodos();
         }
 
@@ -168,22 +109,20 @@ namespace CapaPresentacion
             else if (rdoArtista.Checked)
             {
                 entidadArtista.NombreArtista = txtBuscar.Text;
-                LlenarGrid(negocioArtista.BuscarNombreArtista(entidadArtista));
+                LlenarGrid(negocioArtista.BuscarNombre_Artista(entidadArtista));
             }
             else if (rdoCancion.Checked)
             {
                 entidadCancion.NombreCancion = txtBuscar.Text;
-                LlenarGrid(negocioCancion.BuscarNombreCancion(entidadCancion));
+                LlenarGrid(negocioCancion.BuscarNombre_Cancion(entidadCancion));
             }
             else if (rdoGenero.Checked)
             {
                 entidadGenero.NombreGenero = txtBuscar.Text;
-                LlenarGrid(negocioGenero.BuscarNombreGenero(entidadGenero));
+                LlenarGrid(negocioGenero.BuscarNombre_Genero(entidadGenero));
             }
             CantidadRegistros();
         }
-
-
 
         private void LlenarGrid(List<Cancion_Artista_Genero> lists)
         {
@@ -205,13 +144,6 @@ namespace CapaPresentacion
             lbTotalRegistro.Text = "Total de Registros: " + cantRegistro;
         }
 
-        private void MostrarBotonesMain()
-        {
-            btnInsertar.Visible = false;
-            btnActualizar.Visible = true;
-            btnEliminar.Visible = true;
-            BtnNuevo.Visible = true;
-        }
         #endregion
 
         #region Botones Main
@@ -220,19 +152,16 @@ namespace CapaPresentacion
             if (ddlArtista.SelectedIndex == 0 || txtCancion.Text == string.Empty ||
                  txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0)
             {
-
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                  "alert('Campos Vacios'); ", true);
+                MessageSimple("Campos Vacios");
             }
             else if (ContarCaracteres() < 10)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                  "alert('La letra debe tener al menos 10 caracteres'); ", true);
+                MessageSimple("La letra debe tener al menos 10 caracteres");
             }
             else
             {
                 GuardarCancion();
-                Message("Inserción Exitosa");
+                MessageRedirect("Inserción Exitosa");
             }
         }
 
@@ -241,18 +170,16 @@ namespace CapaPresentacion
             if (ddlArtista.SelectedIndex == 0 || txtCancion.Text == string.Empty ||
             txtLetra.Text == string.Empty || ddlGenero.SelectedIndex == 0 || claveCancion == 0)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                                 "alert('Campos Vacios'); ", true);
+                MessageSimple("Campos Vacios");
             }
             else if (ContarCaracteres() < 10)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                  "alert('La letra debe tener al menos 10 caracteres'); ", true);
+                MessageSimple("La letra debe tener al menos 10 caracteres");
             }
             else
             {
-                ActualizarCancion();
-                Message("Actualizacion Exitosa");
+                Actualizar_Cancion();
+                MessageRedirect("Actualizacion Exitosa");
             }
 
         }
@@ -261,31 +188,21 @@ namespace CapaPresentacion
         {
             if (claveCancion != 0)
             {
-                EliminarCancion();
-                Message("Se Elimino Con Exito");
+                Eliminar_Cancion();
+                MessageRedirect("Se Elimino Con Exito");
             }
             else
             {
-                Message("Selecciona un registro");
+                MessageSimple("Selecciona un registro");
             }
-        }
-
-        void OcultarBotones()
-        {
-            btnActualizar.Visible = false;
-            btnEliminar.Visible = false;
-            BtnNuevo.Visible = false;
-            btnInsertar.Visible = true;
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            gvDatos.PageIndex = 0;
-
-            OcultarBotones();
+            gvDatos.PageIndex = 0;        
             LimpiarMainText();
+            Mostrar_Ocular_Botones(false);
             BuscarDatos();
-
         }
 
         protected void btnModuloArtista_Click(object sender, EventArgs e)
@@ -304,30 +221,64 @@ namespace CapaPresentacion
         {
             Response.Redirect("MusicBit.aspx");
         }
+
         #endregion
 
-        [WebMethod]
-        public static List<string> AutoCompletarArtista(string nombre)
+        #region Web Form
+        private void LimpiarMainText()
         {
-            return NegocioCancion_Artista_Genero.AutoCompletar_Artista(nombre);
+            claveCancion = 0;
+            ddlArtista.SelectedIndex = -1;
+            txtCancion.Text = null;
+            ddlGenero.SelectedIndex = -1;
+            txtLetra.Text = null;
+            txtMostrarLetra.Text = null;
         }
 
-        [WebMethod]
-        public static List<string> AutoCompletarCancion(string nombre)
+        private void MessageSimple(string mensaje)
         {
-            return NegocioCancion_Artista_Genero.AutoCompletar_Cancion(nombre);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                "alert('" + mensaje + "');", true);
         }
 
-        [WebMethod]
-        public static List<string> AutoCompletarGenero(string nombre)
+        private void MessageRedirect(string mensaje)
         {
-            return NegocioCancion_Artista_Genero.AutoCompletar_Genero(nombre);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                "alert('" + mensaje + "'); window.location ='MusicBit.aspx';", true);
         }
 
-        [WebMethod]
-        public static List<string> AutoCompletarTodo(string nombre)
+        protected void gvDatos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            return NegocioCancion_Artista_Genero.AutoCompletar_Todo(nombre);
+            claveCancion = int.Parse(gvDatos.SelectedRow.Cells[1].Text);
+            ddlArtista.SelectedValue = gvDatos.SelectedRow.Cells[2].Text;
+            ddlGenero.SelectedValue = gvDatos.SelectedRow.Cells[3].Text;
+
+            txtCancion.Text = HttpUtility.UrlDecode(gvDatos.SelectedRow.Cells[5].Text, Encoding.UTF8);
+            txtCancion.Text = HttpUtility.HtmlDecode(gvDatos.SelectedRow.Cells[5].Text);
+
+            txtLetra.Text = HttpUtility.UrlDecode(gvDatos.SelectedRow.Cells[7].Text, Encoding.UTF8);
+            txtLetra.Text = HttpUtility.HtmlDecode(gvDatos.SelectedRow.Cells[7].Text);
+
+            txtMostrarLetra.Text = txtLetra.Text;
+            Mostrar_Ocular_Botones(true);
+        }
+
+        protected void gvDatos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                e.Row.Cells[1].Visible = false;
+                e.Row.Cells[2].Visible = false;
+                e.Row.Cells[3].Visible = false;
+                e.Row.Cells[7].Visible = false;
+            }
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Cells[1].Visible = false;
+                e.Row.Cells[2].Visible = false;
+                e.Row.Cells[3].Visible = false;
+                e.Row.Cells[7].Visible = false;
+            }
         }
 
         protected void gvDatos_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -335,5 +286,71 @@ namespace CapaPresentacion
             gvDatos.PageIndex = e.NewPageIndex;
             BuscarDatos();
         }
+
+        private void Mostrar_Ocular_Botones(bool resp)
+        {
+            if (resp)
+            {
+                btnInsertar.Visible = false;
+                btnActualizar.Visible = true;
+                btnEliminar.Visible = true;
+                BtnNuevo.Visible = true;
+            }
+            else
+            {
+                btnActualizar.Visible = false;
+                btnEliminar.Visible = false;
+                BtnNuevo.Visible = false;
+                btnInsertar.Visible = true;
+            }
+        }
+
+        protected void rdoTodo_CheckedChanged(object sender, EventArgs e)
+        {
+            MostrarTodos();
+        }
+
+        protected void rdoArtista_CheckedChanged(object sender, EventArgs e)
+        {
+            MostrarTodos();
+        }
+
+        protected void rdoGenero_CheckedChanged(object sender, EventArgs e)
+        {
+            MostrarTodos();
+        }
+
+        protected void rdoCancion_CheckedChanged(object sender, EventArgs e)
+        {
+            MostrarTodos();
+        }
+        #endregion
+
+        #region WebService
+        [WebMethod]
+        public static List<string> AutoCompletar_Artista(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Artista(nombre);
+        }
+
+        [WebMethod]
+        public static List<string> AutoCompletar_Cancion(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Cancion(nombre);
+        }
+
+        [WebMethod]
+        public static List<string> AutoCompletar_Genero(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Genero(nombre);
+        }
+
+        [WebMethod]
+        public static List<string> AutoCompletar_Todo(string nombre)
+        {
+            return NegocioCancion_Artista_Genero.AutoCompletar_Todo(nombre);
+        }
+        #endregion
+        
     }
 }

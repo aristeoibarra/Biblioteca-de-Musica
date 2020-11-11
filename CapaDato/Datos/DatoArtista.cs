@@ -9,14 +9,14 @@ namespace CapaDato.Datos
     {
         readonly PostDbContext modeldb = new PostDbContext();
 
-        public bool Guardar(Artista obj)
+        public bool Guardar_Artista(Artista obj)
         {
             modeldb.Artista.Add(obj);
             modeldb.SaveChanges();
             return true;
         }
 
-        public void Actualizar(Artista obj)
+        public void Actualizar_Artista(Artista obj)
         {
             var artista = new Artista { CveArtista = obj.CveArtista };
             modeldb.Artista.Attach(artista);
@@ -24,7 +24,7 @@ namespace CapaDato.Datos
             modeldb.SaveChanges();
         }
 
-        public void Eliminar(Artista obj)
+        public void Eliminar_Artista(Artista obj)
         {
             var artista = new Artista { CveArtista = obj.CveArtista };
             modeldb.Artista.Attach(artista);
@@ -32,31 +32,22 @@ namespace CapaDato.Datos
             modeldb.SaveChanges();
         }
 
-        public List<Artista> MostrarDatos()
+        public List<Artista> MostrarDatos_Artista()
         {
             var query = (from a in modeldb.Artista
-                         select a).OrderBy(x=>x.NombreArtista);
+                         select a).OrderBy(x => x.NombreArtista);
 
             return query.ToList();
         }
 
-        public int NumeroRegistros()
+        public int NumeroRegistros_Artista()
         {
             int numeroRegistro = (from a in modeldb.Artista
                                   select a).Count();
             return numeroRegistro;
         }
 
-        public List<Artista> Buscar(Artista obj)
-        {
-            var query = (from a in modeldb.Artista
-                         where a.NombreArtista.Contains(obj.NombreArtista)
-                         select a);
-
-            return query.ToList();
-        }
-
-        public List<Cancion_Artista_Genero> BuscarNombreArtista(Artista obj)
+        public List<Cancion_Artista_Genero> BuscarNombre_Artista(Artista obj)
         {
             var query = (from t1 in modeldb.Cancion
                          join t2 in modeldb.Artista on t1.CveartistaCancion equals t2.CveArtista
@@ -71,30 +62,39 @@ namespace CapaDato.Datos
                              Cancion = t1.NombreCancion,
                              Genero = t3.NombreGenero,
                              Letra = t1.LetraCancion
-                         }).OrderBy(x=>x.Artista)
-                         .ToList();
-            return query;
-        }
-
-        public static List<string> AutoCompletarNombreArtista(string nombreArtista)
-        {
-            PostDbContext modeldb = new PostDbContext();
-            var query = (from a in modeldb.Artista
-                     where a.NombreArtista.Contains(nombreArtista)
-                     select a.NombreArtista).OrderBy(x=>x);
+                         }).OrderBy(x => x.Artista);
 
             return query.ToList();
         }
 
-        public List<Artista> PaginacionByDescArtista(int startIndex, int maxRows, string desc)
+        public List<Artista> Buscar_Artista(Artista obj)
+        {
+            var query = (from a in modeldb.Artista
+                         where a.NombreArtista.Contains(obj.NombreArtista)
+                         select a);
+
+            return query.ToList();
+        }
+
+        public static List<string> AutoCompletarNombre_Artista(string nombreArtista)
+        {
+            PostDbContext modeldb = new PostDbContext();
+            var query = (from a in modeldb.Artista
+                         where a.NombreArtista.Contains(nombreArtista)
+                         select a.NombreArtista).OrderBy(x => x);
+
+            return query.ToList();
+        }
+
+        public List<Artista> PaginacionByDesc_Artista(int index, int maxRows, string desc)
         {
             var resul = (from oc in modeldb.Artista where oc.NombreArtista.Contains(desc) select oc)
                 .OrderBy(p => p.NombreArtista).
-                Skip((startIndex - 1) * maxRows).Take(maxRows);
+                Skip((index - 1) * maxRows).Take(maxRows);
             return resul.ToList();
         }
 
-        public int PaginacionCountArtista(string desc)
+        public int PaginacionCount_Artista(string desc)
         {
             return modeldb.Artista.Count(p => p.NombreArtista.Contains(desc));
         }

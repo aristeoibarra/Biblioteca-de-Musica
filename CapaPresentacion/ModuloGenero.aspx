@@ -12,7 +12,7 @@
                 source: function (request, response) {
                     var param = { nombreGenero: $("#<% =txtBuscarGenero.ClientID%>").val() };
                     $.ajax({
-                        url: "ModuloGenero.aspx/AutoCompletarNombreGenero",
+                        url: "ModuloGenero.aspx/AutoCompletarNombre_Genero",
                         data: JSON.stringify(param),
                         type: "post",
                         contentType: "application/json; charset=utf-8",
@@ -40,7 +40,7 @@
                                 <asp:Label ID="LbBuscar" Style="font-weight: bold;" runat="server" Text="Buscar :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtBuscarGenero" CssClass="form-control border border-info" runat="server" />
+                        <asp:TextBox ID="txtBuscarGenero" AutoComplete="off"  CssClass="form-control border border-info" runat="server" />
                     </div>
 
 
@@ -103,7 +103,7 @@
                                 <asp:Label ID="Label1" runat="server" Style="font-weight: bold;" Text="Genero :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtGenero" placeholder="INGRESA NOMBRE DEL ARTISTA" CssClass="form-control border-info" runat="server" />
+                        <asp:TextBox ID="txtGenero" AutoComplete="off" placeholder="INGRESA NOMBRE DEL ARTISTA" CssClass="form-control border-info" runat="server" />
                     </div>
                     <div style="margin-top: 10px; margin-bottom: 10px;" class="d-flex justify-content-center">
                         <asp:Button ID="btnInsertarGenero" CssClass="btn btn-success" runat="server" Text="Insertar" Height="36px" Width="114px" OnClick="btnInsertarGenero_Click" />
@@ -187,7 +187,7 @@
     <div>
         <%
             CapaNegocio.Negocio.NegocioGenero negocioGenero = new CapaNegocio.Negocio.NegocioGenero();
-            double numero = negocioGenero.NumeroRegistros();
+            double numero = negocioGenero.NumeroRegistros_Genero();
             if (numero == 0)
             {%>
         <style>

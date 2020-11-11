@@ -9,77 +9,75 @@ namespace CapaNegocio.Negocio
     {
         readonly DatoGenero datoGenero = new DatoGenero();
 
-        public bool Guardar(EntidadGenero dat)
+        public bool Guardar_Genero(EntidadGenero dat)
+        {
+            Genero obj = new Genero
+            {
+                NombreGenero = dat.NombreGenero
+            };
+            return datoGenero.Guardar_Genero(obj);
+        }
+
+        public void Actualizar_Genero(EntidadGenero dat)
         {
             Genero obj = new Genero
             {
                 CveGenero = dat.CveGenero,
                 NombreGenero = dat.NombreGenero
             };
-            return datoGenero.Guardar(obj);
+            datoGenero.Actualizar_Genero(obj);
         }
 
-        public void Actualizar(EntidadGenero dat)
-        {
-            Genero obj = new Genero
-            {
-                CveGenero = dat.CveGenero,
-                NombreGenero = dat.NombreGenero
-            };
-            datoGenero.Actualizar(obj);
-        }
-
-        public void Eliminar(EntidadGenero dat)
+        public void Eliminar_Genero(EntidadGenero dat)
         {
             Genero obj = new Genero
             {
                 CveGenero = dat.CveGenero,
             };
-            datoGenero.Eliminar(obj);
+            datoGenero.Eliminar_Genero(obj);
         }
 
-        public List<Genero> MostrarDatos()
+        public List<Genero> MostrarDatos_Genero()
         {
-            return datoGenero.MostrarDatos();
+            return datoGenero.MostrarDatos_Genero();
         }
 
-        public List<Genero> Buscar(EntidadGenero dat)
+        public int NumeroRegistros_Genero()
         {
-            Genero obj = new Genero
-            {
-                NombreGenero = dat.NombreGenero,
-            };
-            return datoGenero.Buscar(obj);
+            return datoGenero.NumeroRegistros_Genero(); 
         }
 
-        public int NumeroRegistros()
-        {
-            int numeroRegistros = datoGenero.NumeroRegistros();
-            return numeroRegistros;
-        }
-
-        public List<Cancion_Artista_Genero> BuscarNombreGenero(EntidadGenero dat)
+        public List<Genero> Buscar_Genero(EntidadGenero dat)
         {
             Genero obj = new Genero
             {
                 NombreGenero = dat.NombreGenero,
             };
-            return datoGenero.BuscarNombreGenero(obj);
+            return datoGenero.Buscar_Genero(obj);
         }
 
-        public static List<string> AutoCompletarNombreGenero(string nombreGenero)
+        public List<Cancion_Artista_Genero> BuscarNombre_Genero(EntidadGenero dat)
         {
-            return DatoGenero.AutoCompletarNombreGenero(nombreGenero);
+            Genero obj = new Genero
+            {
+                NombreGenero = dat.NombreGenero,
+            };
+            return datoGenero.BuscarNombre_Genero(obj);
         }
 
-        public List<Genero> PaginacionByDescGenero(int startIndex, int maxRows, string desc)
+        public static List<string> AutoCompletarNombre_Genero(string nombreGenero)
         {
-            return datoGenero.PaginacionByDescGenero(startIndex, maxRows, desc);
+            return DatoGenero.AutoCompletarNombre_Genero(nombreGenero);
         }
 
-        public int PaginacionCountGenero(string desc)
+        public List<Genero> PaginacionByDesc_Genero(int startIndex, int maxRows, string desc)
         {
-            return datoGenero.PaginacionCountGenero(desc);
+            return datoGenero.PaginacionByDesc_Genero(startIndex, maxRows, desc);
+        }
+
+        public int PaginacionCount_Genero(string desc)
+        {
+            return datoGenero.PaginacionCount_Genero(desc);
         }
     }
 }

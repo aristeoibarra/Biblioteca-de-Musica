@@ -4,7 +4,6 @@ using CapaNegocio.Negocio;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -18,61 +17,71 @@ namespace CapaPresentacion
         readonly EntidadArtista entidadArtista = new EntidadArtista();
 
         static int claveArtista;
-        static int numRegistrado;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // MostrarTodosArtistas();
-                gvDatosArtista.VirtualItemCount = Count();
-                MostrarTodosArtista(1, 6);
-                CantidadRegistros();
+                gvDatosArtista.VirtualItemCount = Count_Buscar();
+                MostrarTodos_Artista(1, 6);
                 claveArtista = 0;
             }
 
         }
 
         #region Metodos Artista
-        void MostrarTodosArtistas()
+        private void MostrarTodos_Artista()
         {
-            gvDatosArtista.DataSource = negocioArtista.MostrarDatos();
+            gvDatosArtista.DataSource = negocioArtista.MostrarDatos_Artista();
             gvDatosArtista.DataBind();
         }
 
-        private void GuardarArtista()
+        private void MostrarTodos_Artista(int starIndex, int maxRows)
         {
-            entidadArtista.NombreArtista = txtArtista.Text;
-            negocioArtista.Guardar(entidadArtista);
-            MostrarTodosArtistas();
+            gvDatosArtista.DataSource = negocioArtista.PaginacionByDesc_Artista(starIndex, maxRows, txtBuscarArtista.Text);
+            gvDatosArtista.DataBind();
         }
 
-        private void ActualizarArtista()
+        private void Guardar_Artista()
+        {
+            entidadArtista.NombreArtista = txtArtista.Text;
+            negocioArtista.Guardar_Artista(entidadArtista);
+            MostrarTodos_Artista();
+        }
+
+        private void Actualizar_Artista()
         {
             entidadArtista.CveArtista = claveArtista;
             entidadArtista.NombreArtista = txtArtista.Text;
-            negocioArtista.Actualizar(entidadArtista);
-            MostrarTodosArtistas();
+            negocioArtista.Actualizar_Artista(entidadArtista);
+            MostrarTodos_Artista();
         }
 
-        private void EliminarArtista()
+        private void Eliminar_Artista()
         {
             entidadArtista.CveArtista = claveArtista;
-            negocioArtista.Eliminar(entidadArtista);
-            MostrarTodosArtistas();
+            negocioArtista.Eliminar_Artista(entidadArtista);
+            MostrarTodos_Artista();
         }
 
-        private void BuscarNombreArtista()
+        private int Count_Buscar()
         {
-            entidadArtista.NombreArtista = txtBuscarArtista.Text;
-            LlenarGrid(negocioArtista.Buscar(entidadArtista));
+            var desc = txtBuscarArtista.Text;
+            return negocioArtista.PaginacionCount_Artista(desc);
         }
 
-        private void CantidadRegistros()
-        {
-            numRegistrado = gvDatosArtista.Rows.Count;
-            lbTotalRegistro.Text = "Total de Registros: " + numRegistrado;
-        }
+        //private void BuscarNombre_Artista()
+        //{
+        //    entidadArtista.NombreArtista = txtBuscarArtista.Text;
+        //    LlenarGrid(negocioArtista.Buscar_Artista(entidadArtista));
+        //}
+
+        //private void LlenarGrid(List<Artista> lists)
+        //{
+        //    gvDatosArtista.DataSource = null;
+        //    gvDatosArtista.DataSource = lists;
+        //    gvDatosArtista.DataBind();
+        //}
 
         #endregion
 
@@ -81,12 +90,12 @@ namespace CapaPresentacion
         {
             if (txtArtista.Text != string.Empty)
             {
-                GuardarArtista();
-                Message("Inserción Exitosa");
+                Guardar_Artista();
+                MessageRedirect("Inserción Exitosa");
             }
             else
             {
-                Message("Campos Vacios");
+                MessageRedirect("Campos Vacios");
             }
         }
 
@@ -94,12 +103,12 @@ namespace CapaPresentacion
         {
             if (txtArtista.Text != string.Empty)
             {
-                ActualizarArtista();
-                Message("Actualizacion Exitosa");
+                Actualizar_Artista();
+                MessageRedirect("Actualizacion Exitosa");
             }
             else
             {
-                Message("Campos Vacios");
+                MessageRedirect("Campos Vacios");
             }
         }
 
@@ -107,13 +116,12 @@ namespace CapaPresentacion
         {
             if (claveArtista != 0)
             {
-                EliminarArtista();
-                Message("Se Elimino Con Exito");
+                Eliminar_Artista();
+                MessageRedirect("Se Elimino Con Exito");
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                                 "alert('Selecciona un registro'); ", true);
+                MessageSimple("Selecciona un registro");
             }
         }
 
@@ -122,22 +130,12 @@ namespace CapaPresentacion
             Response.Redirect("ModuloArtista.aspx");
         }
 
-        
-        void OcultarBotones()
-        {
-            btnActualizarArtista.Visible = false;
-            btnEliminarArtista.Visible = false;
-            BtnNuevoArtista.Visible = false;
-            btnInsertarArtista.Visible = true;
-        }
         protected void btnBusarArtista_Click(object sender, EventArgs e)
         {
             LimpiarText();
-            // BuscarNombreArtista();
-            OcultarBotones();
-            gvDatosArtista.VirtualItemCount = Count();
-            MostrarTodosArtista(1, 6);
-            CantidadRegistros();
+            Mostrar_Ocular_Botones(false);
+            gvDatosArtista.VirtualItemCount = Count_Buscar();
+            MostrarTodos_Artista(1, 6);
         }
 
         protected void lnkbtnHome_Click(object sender, EventArgs e)
@@ -149,10 +147,23 @@ namespace CapaPresentacion
         {
             Response.Redirect("ModuloGenero.aspx");
         }
+
         #endregion
 
         #region Web Form
-        private void Message(string mensaje)
+        private void LimpiarText()
+        {
+            claveArtista = 0;
+            txtArtista.Text = null;
+        }
+
+        private void MessageSimple(string mensaje)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                "alert('" + mensaje + "');", true);
+        }
+
+        private void MessageRedirect(string mensaje)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
                 "alert('" + mensaje + "'); window.location ='ModuloArtista.aspx';", true);
@@ -161,56 +172,15 @@ namespace CapaPresentacion
         protected void gvDatosArtista_SelectedIndexChanged(object sender, EventArgs e)
         {
             claveArtista = int.Parse(gvDatosArtista.SelectedRow.Cells[1].Text);
-
             txtArtista.Text = HttpUtility.UrlDecode(gvDatosArtista.SelectedRow.Cells[2].Text, Encoding.UTF8);
             txtArtista.Text = HttpUtility.HtmlDecode(gvDatosArtista.SelectedRow.Cells[2].Text);
-            MostrarBotonesArtista();
-        }
-
-        private void MostrarBotonesArtista()
-        {
-            btnInsertarArtista.Visible = false;
-            btnActualizarArtista.Visible = true;
-            btnEliminarArtista.Visible = true;
-            BtnNuevoArtista.Visible = true;
-        }
-
-        private void LlenarGrid(List<Artista> lists)
-        {
-            gvDatosArtista.DataSource = null;
-            gvDatosArtista.DataSource = lists;
-            gvDatosArtista.DataBind();
-        }
-
-        private void LimpiarText()
-        {
-            claveArtista = 0;
-            txtArtista.Text = null;
-        }
-        #endregion
-
-        [WebMethod]
-        public static List<string> AutoCompletarNombreArtista(string nombreArtista)
-        {
-            return NegocioArtista.AutoCompletarNombreArtista(nombreArtista);
-        }
-
-        private void MostrarTodosArtista(int starIndex, int maxRows)
-        {
-            gvDatosArtista.DataSource = negocioArtista.PaginacionByDescArtista(starIndex, maxRows, txtBuscarArtista.Text);
-            gvDatosArtista.DataBind();
-        }
-
-        private int Count()
-        {
-            var desc = txtBuscarArtista.Text;
-            return negocioArtista.PaginacionCountArtista(desc);
+            Mostrar_Ocular_Botones(true);
         }
 
         protected void gvDatosArtista_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvDatosArtista.PageIndex = e.NewPageIndex;
-            MostrarTodosArtista(e.NewPageIndex + 1, 6);
+            MostrarTodos_Artista(e.NewPageIndex + 1, 6);
         }
 
         protected void gvDatosArtista_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -223,6 +193,34 @@ namespace CapaPresentacion
             {
                 e.Row.Cells[1].Visible = false;
             }
-        }  
+        }
+
+        private void Mostrar_Ocular_Botones(bool resp)
+        {
+            if (resp)
+            {
+                btnInsertarArtista.Visible = false;
+                btnActualizarArtista.Visible = true;
+                btnEliminarArtista.Visible = true;
+                BtnNuevoArtista.Visible = true;
+            }
+            else
+            {
+                btnActualizarArtista.Visible = false;
+                btnEliminarArtista.Visible = false;
+                BtnNuevoArtista.Visible = false;
+                btnInsertarArtista.Visible = true;
+            }         
+        }
+        
+        #endregion
+
+        #region WebService
+        [WebMethod]
+        public static List<string> AutoCompletarNombre_Artista(string nombreArtista)
+        {
+            return NegocioArtista.AutoCompletarNombre_Artista(nombreArtista);
+        }
+        #endregion     
     }
 }

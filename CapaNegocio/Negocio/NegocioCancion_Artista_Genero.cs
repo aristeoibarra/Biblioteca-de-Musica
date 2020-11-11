@@ -17,12 +17,9 @@ namespace CapaNegocio.Negocio
         public List<Cancion_Artista_Genero> BuscarTodo(
          EntidadCancion datCancion, EntidadArtista datArtista, EntidadGenero datGenero)
         {
-            Cancion objCancion = new Cancion();
-            objCancion.NombreCancion = datCancion.NombreCancion;
-            Artista objArtista = new Artista();
-            objArtista.NombreArtista = datArtista.NombreArtista;
-            Genero objGenero = new Genero();
-            objGenero.NombreGenero = datGenero.NombreGenero;
+            Cancion objCancion = new Cancion { NombreCancion = datCancion.NombreCancion };
+            Artista objArtista = new Artista { NombreArtista = datArtista.NombreArtista };
+            Genero objGenero = new Genero { NombreGenero = datGenero.NombreGenero };
 
             return datoCAG.BuscarTodo(objCancion, objArtista, objGenero);
         }

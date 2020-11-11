@@ -17,62 +17,70 @@ namespace CapaPresentacion
         readonly EntidadGenero entidadGenero = new EntidadGenero();
 
         static int claveGenero = 0;
-        static int numRegistrado;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // MostrarTodosGenero();
-                gvDatosGenero.VirtualItemCount = Count();
-                MostrarTodosGenero(1, 6);
-                CantidadRegistros();
+                gvDatosGenero.VirtualItemCount = Count_Buscar();
+                MostrarTodos_Genero(1, 6);
                 claveGenero = 0;
             }
         }
 
         #region Metodos Genero
-        private void MostrarTodosGenero()
+        private void MostrarTodos_Genero()
         {
-            gvDatosGenero.DataSource = negocioGenero.MostrarDatos();
+            gvDatosGenero.DataSource = negocioGenero.MostrarDatos_Genero();
             gvDatosGenero.DataBind();
-        }
-        private void GuardarGenero()
-        {
-            entidadGenero.NombreGenero = txtGenero.Text;
-            negocioGenero.Guardar(entidadGenero);
-            MostrarTodosGenero();
-        }
-        private void ActualizarGenero()
-        {
-            entidadGenero.CveGenero = claveGenero;
-            entidadGenero.NombreGenero = txtGenero.Text;
-            negocioGenero.Actualizar(entidadGenero);
-            MostrarTodosGenero();
-        }
-        private void EliminarGenero()
-        {
-            entidadGenero.CveGenero = claveGenero;
-            negocioGenero.Eliminar(entidadGenero);
-            MostrarTodosGenero();
-        }
-        private void BuscarNombreGenero()
-        {
-            entidadGenero.NombreGenero = txtBuscarGenero.Text;
-            LlenarGrid(negocioGenero.Buscar(entidadGenero));
-        }
-        private void LlenarGrid(List<Genero> lists)
-        {
-            gvDatosGenero.DataSource = null;
-            gvDatosGenero.DataSource = lists;
-            gvDatosGenero.DataBind();
-        }
-        private void CantidadRegistros()
-        {
-            numRegistrado = gvDatosGenero.Rows.Count;
-            lbTotalRegistro.Text = "Total de Registros: " + numRegistrado;
         }
 
+        private void MostrarTodos_Genero(int starIndex, int maxRows)
+        {
+            gvDatosGenero.DataSource = negocioGenero.PaginacionByDesc_Genero(starIndex, maxRows, txtBuscarGenero.Text);
+            gvDatosGenero.DataBind();
+        }
+
+        private void Guardar_Genero()
+        {
+            entidadGenero.NombreGenero = txtGenero.Text;
+            negocioGenero.Guardar_Genero(entidadGenero);
+            MostrarTodos_Genero();
+        }
+
+        private void Actualizar_Genero()
+        {
+            entidadGenero.CveGenero = claveGenero;
+            entidadGenero.NombreGenero = txtGenero.Text;
+            negocioGenero.Actualizar_Genero(entidadGenero);
+            MostrarTodos_Genero();
+        }
+
+        private void Eliminar_Genero()
+        {
+            entidadGenero.CveGenero = claveGenero;
+            negocioGenero.Eliminar_Genero(entidadGenero);
+            MostrarTodos_Genero();
+        }
+
+        private int Count_Buscar()
+        {
+            var desc = txtBuscarGenero.Text;
+            return negocioGenero.PaginacionCount_Genero(desc);
+        }
+
+        //private void BuscarNombre_Genero()
+        //{
+        //    entidadGenero.NombreGenero = txtBuscarGenero.Text;
+        //    LlenarGrid(negocioGenero.Buscar_Genero(entidadGenero));
+        //}
+
+        //private void LlenarGrid(List<Genero> lists)
+        //{
+        //    gvDatosGenero.DataSource = null;
+        //    gvDatosGenero.DataSource = lists;
+        //    gvDatosGenero.DataBind();
+        //}   
         #endregion
 
         #region Botones Genero
@@ -80,12 +88,12 @@ namespace CapaPresentacion
         {
             if (txtGenero.Text != string.Empty)
             {
-                GuardarGenero();
-                Message("Inserción Exitosa");
+                Guardar_Genero();
+                MessageRedirect("Inserción Exitosa");
             }
             else
             {
-                Message("Campos Vacios");
+                MessageRedirect("Campos Vacios");
             }
         }
 
@@ -93,12 +101,12 @@ namespace CapaPresentacion
         {
             if (txtGenero.Text != string.Empty)
             {
-                ActualizarGenero();
-                Message("Actualizacion Exitosa");
+                Actualizar_Genero();
+                MessageRedirect("Actualizacion Exitosa");
             }
             else
             {
-                Message("Campos Vacios");
+                MessageRedirect("Campos Vacios");
             }
         }
 
@@ -106,30 +114,13 @@ namespace CapaPresentacion
         {
             if (claveGenero != 0)
             {
-                EliminarGenero();
-                Message("Se Elimino Con Exito");
+                Eliminar_Genero();
+                MessageRedirect("Se Elimino Con Exito");
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
-                                 "alert('Selecciona un registro'); ", true);
+                MessageSimple("Selecciona un registro");
             }
-        }
-        void OcultarBotones()
-        {
-            btnActualizarGenero.Visible = false;
-            btnEliminarGenero.Visible = false;
-            BtnNuevoGenero.Visible = false;
-            btnInsertarGenero.Visible = true;
-        }
-        protected void btnBusarGenero_Click(object sender, EventArgs e)
-        {
-            LimpiarText();
-            //BuscarNombreGenero();
-            OcultarBotones();
-            gvDatosGenero.VirtualItemCount = Count();
-            MostrarTodosGenero(1, 6);
-            CantidadRegistros();
         }
 
         protected void BtnNuevoGenero_Click(object sender, EventArgs e)
@@ -137,7 +128,15 @@ namespace CapaPresentacion
             Response.Redirect("ModuloGenero.aspx");
 
         }
-
+  
+        protected void btnBusarGenero_Click(object sender, EventArgs e)
+        {
+            LimpiarText();
+            Mostrar_Ocular_Botones(false);
+            gvDatosGenero.VirtualItemCount = Count_Buscar();
+            MostrarTodos_Genero(1, 6);
+        }
+      
         protected void lnkbtnHome_Click(object sender, EventArgs e)
         {
             Response.Redirect("MusicBit.aspx");
@@ -147,22 +146,26 @@ namespace CapaPresentacion
         {
             Response.Redirect("ModuloArtista.aspx");
         }
-
+      
         #endregion
 
         #region Web Form
-        private void Message(string mensaje)
+        private void LimpiarText()
+        {
+            claveGenero = 0;
+            txtGenero.Text = null;
+        }
+
+        private void MessageSimple(string mensaje)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
+                "alert('" + mensaje + "');", true);
+        }
+
+        private void MessageRedirect(string mensaje)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "showalert",
                 "alert('" + mensaje + "'); window.location ='ModuloGenero.aspx';", true);
-        }
-
-        void MostrarBotonesGenero()
-        {
-            btnInsertarGenero.Visible = false;
-            btnActualizarGenero.Visible = true;
-            btnEliminarGenero.Visible = true;
-            BtnNuevoGenero.Visible = true;
         }
 
         protected void gvDatosGenero_SelectedIndexChanged(object sender, EventArgs e)
@@ -171,38 +174,13 @@ namespace CapaPresentacion
 
             txtGenero.Text = HttpUtility.UrlDecode(gvDatosGenero.SelectedRow.Cells[2].Text, Encoding.UTF8);
             txtGenero.Text = HttpUtility.HtmlDecode(gvDatosGenero.SelectedRow.Cells[2].Text);
-            MostrarBotonesGenero();
-        }
-
-        private void LimpiarText()
-        {
-            claveGenero = 0;
-            txtGenero.Text = null;
-        }
-        #endregion
-
-        [WebMethod]
-        public static List<string> AutoCompletarNombreGenero(string nombreGenero)
-        {
-            return NegocioGenero.AutoCompletarNombreGenero(nombreGenero);
-        }
-
-        private void MostrarTodosGenero(int starIndex, int maxRows)
-        {
-            gvDatosGenero.DataSource = negocioGenero.PaginacionByDescGenero(starIndex, maxRows, txtBuscarGenero.Text);
-            gvDatosGenero.DataBind();
-        }
-
-        private int Count()
-        {
-            var desc = txtBuscarGenero.Text;
-            return negocioGenero.PaginacionCountGenero(desc);
+            Mostrar_Ocular_Botones(true);
         }
 
         protected void gvDatosGenero_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvDatosGenero.PageIndex = e.NewPageIndex;
-            MostrarTodosGenero(e.NewPageIndex + 1, 6);
+            MostrarTodos_Genero(e.NewPageIndex + 1, 6);
         }
 
         protected void gvDatosGenero_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -216,5 +194,33 @@ namespace CapaPresentacion
                 e.Row.Cells[1].Visible = false;
             }
         }
+
+        private void Mostrar_Ocular_Botones(bool resp)
+        {
+            if (resp)
+            {
+                btnInsertarGenero.Visible = false;
+                btnActualizarGenero.Visible = true;
+                btnEliminarGenero.Visible = true;
+                BtnNuevoGenero.Visible = true;
+            }
+            else
+            {
+                btnActualizarGenero.Visible = false;
+                btnEliminarGenero.Visible = false;
+                BtnNuevoGenero.Visible = false;
+                btnInsertarGenero.Visible = true;
+            }
+        }
+
+        #endregion
+
+        #region WebService
+        [WebMethod]
+        public static List<string> AutoCompletarNombre_Genero(string nombreGenero)
+        {
+            return NegocioGenero.AutoCompletarNombre_Genero(nombreGenero);
+        }
+        #endregion
     }
 }
