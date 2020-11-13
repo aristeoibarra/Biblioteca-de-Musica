@@ -15,7 +15,11 @@
                                 <asp:Label ID="LbBuscar" Style="font-weight: bold;" runat="server" Text="Buscar :" Width="90px" />
                             </span>
                         </div>
+<<<<<<< HEAD
                         <asp:TextBox ID="txtBuscar"  placeholder="BUSCAR ARTISTA, CANCION O GENERO" AutoComplete="off" CssClass="form-control border border-info" runat="server" />
+=======
+                        <asp:TextBox ID="txtBuscar" AutoComplete="off" CssClass="form-control border border-info" runat="server" />
+>>>>>>> b95714cc2ef23dac2ed84dbab63d78f52db99793
                     </div>
 
                     <div id="rdoBotones">
