@@ -1,12 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="MusicBit.aspx.cs" Inherits="CapaPresentacion.MusicBit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
-    <link href="App/Styles/Main.css" rel="stylesheet" />
-
-    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -21,7 +15,7 @@
                                 <asp:Label ID="LbBuscar" Style="font-weight: bold;" runat="server" Text="Buscar :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtBuscar"  AutoComplete="off"  CssClass="form-control border border-info" runat="server" />
+                        <asp:TextBox ID="txtBuscar" AutoComplete="off" CssClass="form-control border border-info" runat="server" />
                     </div>
 
                     <div id="rdoBotones">
@@ -52,11 +46,12 @@
                 </div>
             </div>
 
-            <div class="mb-1  rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid White; background-color: #d9d9d9; height: 260px;">
-                <div id="scroll" class="mt-2 mt-sm-2 mt-md-2">
+            <div class="mb-1  rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid White; background-color: #d9d9d9; height: 260px; overflow: auto;">
+                <div class="mt-2 mt-sm-2 mt-md-2">
                     <asp:GridView ID="gvDatos"
                         AutoGenerateColumns="False"
                         PageSize="6"
+                        RowStyle-Wrap="false"
                         Width="100%" CssClass="table-hover"
                         runat="server" AutoGenerateSelectButton="True"
                         OnSelectedIndexChanged="gvDatos_SelectedIndexChanged"
@@ -64,7 +59,8 @@
                         OnPageIndexChanging="gvDatos_PageIndexChanging"
                         OnRowDataBound="gvDatos_RowDataBound">
 
-
+                        <RowStyle Height="20px" />
+                        <AlternatingRowStyle Height="20px" />
                         <FooterStyle BackColor="#CCCCCC" />
                         <HeaderStyle CssClass="text-white bg-dark" HorizontalAlign="Center" BorderStyle="Groove" BorderColor="black" />
                         <RowStyle CssClass="table-light" HorizontalAlign="Center" BorderStyle="Groove" BorderColor="black" />
@@ -89,8 +85,8 @@
 
                             <asp:BoundField DataField="Letra" HeaderText="letra"></asp:BoundField>
 
-
                         </Columns>
+
                         <PagerSettings Mode="NumericFirstLast"
                             PageButtonCount="8"
                             FirstPageText="Primero"

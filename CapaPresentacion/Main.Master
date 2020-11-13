@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="App/Images/musicBit.png" />
     <title>Music Bit</title>
 
+
     <!-- Bootstrap -->
     <link href="App/Styles/bootstrap.min.css" rel="stylesheet" />
     <script src="App/Scripts/bootstrap.min.js"></script>
@@ -19,6 +20,10 @@
     <%--Fonts--%>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,900;1,900&display=swap" rel="stylesheet" />
 
+    <%-- jquery --%>
+    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
 
     <script>
         function ShowMessage(mensaje) {

@@ -307,21 +307,25 @@ namespace CapaPresentacion
 
         protected void rdoTodo_CheckedChanged(object sender, EventArgs e)
         {
+            gvDatos.PageIndex = 0;
             MostrarTodos();
         }
 
         protected void rdoArtista_CheckedChanged(object sender, EventArgs e)
         {
+            gvDatos.PageIndex = 0; 
             MostrarTodos();
         }
 
         protected void rdoGenero_CheckedChanged(object sender, EventArgs e)
         {
+            gvDatos.PageIndex = 0;
             MostrarTodos();
         }
 
         protected void rdoCancion_CheckedChanged(object sender, EventArgs e)
         {
+            gvDatos.PageIndex = 0;
             MostrarTodos();
         }
         #endregion
@@ -350,7 +354,6 @@ namespace CapaPresentacion
         {
             return NegocioCancion_Artista_Genero.AutoCompletar_Todo(nombre);
         }
-        #endregion
-        
+        #endregion      
     }
 }
