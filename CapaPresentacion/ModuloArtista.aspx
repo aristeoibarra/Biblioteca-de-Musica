@@ -1,29 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="ModuloArtista.aspx.cs" Inherits="CapaPresentacion.ModuloArtista" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
-    <script>    
-        $(function () {
-            $("#<% =txtBuscarArtista.ClientID%>").autocomplete({
-                source: function (request, response) {
-                    var param = { nombreArtista: $("#<% =txtBuscarArtista.ClientID%>").val() };
-                    $.ajax({
-                        url: "ModuloArtista.aspx/AutoCompletarNombre_Artista",
-                        data: JSON.stringify(param),
-                        type: "post",
-                        contentType: "application/json; charset=utf-8",
-                        datafilter: function (data) { return data; },
-                        success: function (data) {
-                            response($.map(data.d, function (item) { return { value: item } }))
-                        },
-                    });
-                },
-                minLength: 1
-            });
-        });
-    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
@@ -36,7 +13,7 @@
                                 <asp:Label ID="LbBuscar" Style="font-weight: bold;" runat="server" Text="Buscar :" Width="90px" />
                             </span>
                         </div>
-                        <asp:TextBox ID="txtBuscarArtista" AutoComplete="off"  CssClass="form-control border border-info" runat="server" />
+                        <asp:TextBox ID="txtBuscarArtista" placeholder="BUSCAR ARTISTA" AutoComplete="off"  CssClass="form-control border border-info" runat="server" />
                     </div>
 
 
@@ -46,13 +23,12 @@
                 </div>
             </div>
 
-            <div class="mb-1  rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid White; background-color: #d9d9d9; height: 260px;">
-                <div id="" class="mt-2 mt-sm-2 mt-md-2"">
-
+            <div class="mb-1  rounded col-12 col-sm-12 col-md-7 col-lg-7" style="border-left: 3px solid White; background-color: #d9d9d9; height: 260px; overflow: auto;">
+                <div class="mt-2 mt-sm-2 mt-md-2" ">
                     <asp:GridView ID="gvDatosArtista"
                         AutoGenerateColumns="False"
                         PageSize="6"
-                        Width="100%" CssClass="table-hover"
+                        CssClass="table-hover" 
                         runat="server" AutoGenerateSelectButton="True"
                         OnSelectedIndexChanged="gvDatosArtista_SelectedIndexChanged"
                         AllowPaging="True"
@@ -270,4 +246,25 @@
             <% }%>
         </div>
     </div>
+
+    <script>    
+        $(function () {
+            $("#<% =txtBuscarArtista.ClientID%>").autocomplete({
+                source: function (request, response) {
+                    var param = { nombreArtista: $("#<% =txtBuscarArtista.ClientID%>").val() };
+                    $.ajax({
+                        url: "ModuloArtista.aspx/AutoCompletarNombre_Artista",
+                        data: JSON.stringify(param),
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        datafilter: function (data) { return data; },
+                        success: function (data) {
+                            response($.map(data.d, function (item) { return { value: item } }))
+                        },
+                    });
+                },
+                minLength: 1
+            });
+        });
+    </script>
 </asp:Content>
